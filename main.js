@@ -111,14 +111,14 @@ async function getStudents() {
   students.forEach((student) => {
     let tr = document.createElement("tr");
 
-    tr.innerHTML += `<td>${student.name}</td>`;
+    tr.innerHTML += `<td class='name'>${student.name}</td>`;
 
     for (let i = 1; i <= settings.pieces; i++) {
       let val = student.lessons?.[`piece${i}`] || 0;
 
       tr.innerHTML += `
   <td 
-  data-label="${settings.names[i - 1]}">
+  data-label="${settings.names[i - 1] + " ( " + settings.max[i - 1] + " ) "}">
     <input type="number"
       value="${val}"
       data-id="${student.id}"
@@ -130,7 +130,7 @@ async function getStudents() {
     }
 
     let total = calculateTotal(student.lessons || {});
-    tr.innerHTML += `<td>${total}</td>`;
+    tr.innerHTML += `<td class='total'>${total}</td>`;
 
     table.appendChild(tr);
   });
@@ -144,9 +144,10 @@ function renderHeader() {
   thead.innerHTML = `<th>الاسم</th>`;
 
   for (let i = 1; i <= settings.pieces; i++) {
-    const name = settings.names?.[i - 1] || `قطعة ${i}`;
+    const name =
+      settings.names?.[i - 1] + "(" + settings.max[i - 1] + ")" || `قطعة ${i}`;
 
-    thead.innerHTML += `<th>${name}</th>`;
+    thead.innerHTML += `<th class='name'>${name}</th>`;
   }
 
   thead.innerHTML += `<th>المجموع</th>`;
@@ -230,14 +231,14 @@ window.searchStudents = async function () {
   students.forEach((student) => {
     let tr = document.createElement("tr");
 
-    tr.innerHTML += `<td>${student.name}</td>`;
+    tr.innerHTML += `<td class='name'>${student.name}</td>`;
 
     for (let i = 1; i <= settings.pieces; i++) {
       let val = student.lessons?.[`piece${i}`] || 0;
 
       tr.innerHTML += `
       <td 
-      data-label="${settings.names[i - 1]}">
+      data-label="${settings.names[i - 1] + " ( " + settings.max[i - 1] + " ) "}">
       <input type="number"
         value="${val}"
         data-id="${student.id}"
@@ -248,7 +249,7 @@ window.searchStudents = async function () {
     }
 
     let total = calculateTotal(student.lessons || {});
-    tr.innerHTML += `<td>${total}</td>`;
+    tr.innerHTML += `<td class='total'>${total}</td>`;
 
     table.appendChild(tr);
   });
