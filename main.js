@@ -236,17 +236,15 @@ window.searchStudents = async function () {
       let val = student.lessons?.[`piece${i}`] || 0;
 
       tr.innerHTML += `
-        <td>
-          <input type="number"
-            min="0"
-            max="${settings.max?.[i - 1] || 10}"
-            data-id="${student.id}"
-            data-piece="piece${i}"
-            value="${val}"
-            style="width:60px"
-          >
-        </td>
-      `;
+      <td 
+      data-label="${settings.names[i - 1]}">
+      <input type="number"
+        value="${val}"
+        data-id="${student.id}"
+        data-piece="piece${i}"
+        class='pp'
+      >
+      </td>`;
     }
 
     let total = calculateTotal(student.lessons || {});
