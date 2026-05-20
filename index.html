@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>اختيار المرحلة</title>
+    <style>
+        section{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+      body div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+      }
+      body div button {
+        width: 50%;
+        background-color: rgb(224, 161, 0);
+        border: none;
+        padding: 5px;
+        height: 35px;
+        font-weight: bold;
+        font-size: 20px;
+        border-radius: 10px;
+      }
+      body {
+        background-image: url("imgs/Logo HQ.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <div>
+          <button onclick="selectStage('BC')">BC</button>
+          <button onclick="selectStage('KG1')">KG1</button>
+          <button onclick="selectStage('KG2')">KG2</button>
+          <button onclick="selectStage('اولي ابتدائي')">أولى ابتدائي</button>
+          <button onclick="selectStage('تانيةابتدائي')">تانية ابتدائي</button>
+          <button onclick="selectStage('تالتة ابتدائي')">تالتة ابتدائي</button>
+          <button onclick="selectStage('رابعة ابتدائي')">رابعة ابتدائي</button>
+          <button onclick="selectStage('خامسة ابتدائي')">خامسة ابتدائي</button>
+          <button onclick="selectStage('ساتة ابتدائي')">ساتة ابتدائي</button>
+        </div>
+      </div>
+    </section>
+    <script>
+      function selectStage(stage) {
+        localStorage.setItem("stage", stage);
+        window.location.href = "app.html";
+      }
+    </script>
+  </body>
+</html>
