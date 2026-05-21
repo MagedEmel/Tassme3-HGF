@@ -37,7 +37,7 @@ header {
   width: 100%;
   min-height: 80px;
   background: linear-gradient(135deg, #ffc10760, #47390c46);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -52,7 +52,16 @@ header nav {
   align-items: center;
   justify-content: space-between;
 }
-
+h3#messge {
+  text-align: center;
+  margin: 15px;
+  font-size: 25px;
+  background: linear-gradient(135deg, #ffc10760, #47390c46);
+  padding: 20px;
+  color: white;
+  border-radius: 25px;
+  direction: rtl;
+}
 #backword {
   width: 45px;
   height: 45px;
@@ -77,7 +86,7 @@ header nav {
   font-weight: 900;
   color: white;
   letter-spacing: 2px;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.25);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .sub-title {
@@ -104,7 +113,6 @@ header nav {
 ========================= */
 
 @media (max-width: 768px) {
-
   header nav {
     flex-direction: column;
     gap: 12px;
@@ -281,7 +289,7 @@ table th {
   border-bottom: 2px solid rgba(255, 255, 255, 0.15);
   border-left: 2px solid rgba(255, 193, 7, 0.685);
 }
-table th#name{
+table th#name {
   width: 90px !important;
   font-size: 18px;
 }
@@ -397,7 +405,7 @@ table td input:focus {
   background: #ffc107;
 }
 
-table tr:nth-child(even){
+table tr:nth-child(even) {
   background-color: rgba(129, 129, 129, 0.404);
 }
 /* =========================
@@ -490,9 +498,9 @@ table tr:nth-child(even){
 
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
   }
-table tr:nth-child(even){
-  background-color: rgba(129, 129, 129, 0.404);
-}
+  table tr:nth-child(even) {
+    background-color: rgba(129, 129, 129, 0.404);
+  }
   table td {
     display: flex;
 
@@ -556,50 +564,51 @@ table tr:nth-child(even){
 
     font-size: 18px;
   }
+  table td.total{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 25px;
+  }
+  table td.total::before {
+    content: "TOTAL : ";
+    letter-spacing: 1.8px;
+    direction: ltr;
+  }
 }
 
+.show-more-box {
+  width: 100%;
 
-.show-more-box{
+  display: flex;
 
-  width:100%;
+  justify-content: center;
 
-  display:flex;
-
-  justify-content:center;
-
-  margin:20px 0;
+  margin: 20px 0;
 }
 
-#showAllBtn{
+#showAllBtn {
+  background: linear-gradient(45deg, #ff9800, #ffc107);
 
-  background:
-  linear-gradient(
-    45deg,
-    #ff9800,
-    #ffc107
-  );
+  color: white;
 
-  color:white;
+  border: none;
 
-  border:none;
+  padding: 12px 25px;
 
-  padding:12px 25px;
+  border-radius: 14px;
 
-  border-radius:14px;
+  font-size: 18px;
 
-  font-size:18px;
+  font-weight: bold;
 
-  font-weight:bold;
+  cursor: pointer;
 
-  cursor:pointer;
-
-  transition:.3s;
+  transition: 0.3s;
 }
 
-#showAllBtn:hover{
+#showAllBtn:hover {
+  transform: translateY(-3px);
 
-  transform:translateY(-3px);
-
-  box-shadow:
-  0 10px 20px rgba(255,193,7,.35);
+  box-shadow: 0 10px 20px rgba(255, 193, 7, 0.35);
 }
