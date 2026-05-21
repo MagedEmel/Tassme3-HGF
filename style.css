@@ -530,7 +530,7 @@ table tr:nth-child(even){
 
   justify-content:center;
 
-  margin-top:20px;
+  margin:20px 0;
 }
 
 #showAllBtn{
