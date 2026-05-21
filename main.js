@@ -101,22 +101,82 @@ function renderHeader() {
 ========================= */
 
 window.addStudent = async function () {
-  const input = document.getElementById("studentName");
 
-  const name = input.value.trim();
+  const input =
+    document.getElementById("studentName");
+
+  const name =
+    input.value.trim();
 
   if (!name) return;
 
-  let lessons = {};
+  /* =========================
+     Check If Exists
+  ========================= */
 
-  for (let i = 1; i <= settings.pieces; i++) {
-    lessons[`piece${i}`] = 0;
+  const snap = await getDocs(
+    collection(
+      db,
+      "stages",
+      stage,
+      "students"
+    )
+  );
+
+  let exists = false;
+
+  snap.forEach(d => {
+
+    const student =
+      d.data();
+
+    if (
+      student.name.trim() === name
+    ) {
+      exists = true;
+    }
+
+  });
+
+  if (exists) {
+
+    alert("الاسم موجود بالفعل");
+
+    return;
   }
 
-  await addDoc(collection(db, "stages", stage, "students"), {
-    name,
-    lessons,
-  });
+  /* =========================
+     Create Lessons
+  ========================= */
+
+  let lessons = {};
+
+  for (
+    let i = 1;
+    i <= settings.pieces;
+    i++
+  ) {
+
+    lessons[`piece${i}`] = 0;
+
+  }
+
+  /* =========================
+     Add Student
+  ========================= */
+
+  await addDoc(
+    collection(
+      db,
+      "stages",
+      stage,
+      "students"
+    ),
+    {
+      name,
+      lessons
+    }
+  );
 
   input.value = "";
 
@@ -175,7 +235,7 @@ function renderStudents(students) {
     let total = calculateTotal(student.lessons || {});
 
     tr.innerHTML += `
-      <td>${total}</td>
+      <td class='total'>${total}</td>
     `;
     table.appendChild(tr);
   });
@@ -200,7 +260,7 @@ async function getStudents() {
     c++;
     totalStudents.innerHTML = c;
   });
-
+  c = 0;
   students.sort((a, b) => a.name.localeCompare(b.name, "ar"));
 
   allStudents = students;
