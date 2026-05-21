@@ -283,7 +283,7 @@ function renderStudents(students = allStudents) {
      SHOW BUTTON
   ========================= */
 
-  if (students.length <= 10) {
+  if (students.length <= 5) {
     showAllBtn.style.display = "none";
   } else {
     showAllBtn.style.display = "block";
