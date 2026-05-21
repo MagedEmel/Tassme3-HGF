@@ -12,6 +12,12 @@ import {
   getDoc,
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 /* =========================
    Firebase
 ========================= */
@@ -53,7 +59,32 @@ backword.onclick = () => {
 const table = document.querySelector("tbody.data");
 
 let allStudents = [];
+let showAll = false;
 
+const showAllBtn = document.getElementById("showAllBtn");
+/* =========================
+   SHOW ALL BUTTON
+========================= */
+
+showAllBtn.onclick = function () {
+  showAll = !showAll;
+
+  const value = document.getElementById("search").value.trim().toLowerCase();
+
+  /* =========================
+     لو فيه سيرش
+  ========================= */
+
+  if (value) {
+    const filtered = allStudents.filter((student) =>
+      student.name.toLowerCase().includes(value),
+    );
+
+    renderStudents(filtered);
+  } else {
+    renderStudents(allStudents);
+  }
+};
 /* =========================
    Settings
 ========================= */
@@ -86,7 +117,9 @@ function renderHeader() {
   theadRow.innerHTML = `<th id="name">الاسم</th>`;
 
   for (let i = 1; i <= settings.pieces; i++) {
-    const lessonName = settings.names?.[i - 1] || `قطعة ${i}`;
+    const lessonName =
+      settings.names?.[i - 1] + " ( " + settings.max[i - 1] + " ) " ||
+      `قطعة ${i}`;
 
     theadRow.innerHTML += `
       <th>${lessonName}</th>
@@ -101,12 +134,9 @@ function renderHeader() {
 ========================= */
 
 window.addStudent = async function () {
+  const input = document.getElementById("studentName");
 
-  const input =
-    document.getElementById("studentName");
-
-  const name =
-    input.value.trim();
+  const name = input.value.trim();
 
   if (!name) return;
 
@@ -114,32 +144,19 @@ window.addStudent = async function () {
      Check If Exists
   ========================= */
 
-  const snap = await getDocs(
-    collection(
-      db,
-      "stages",
-      stage,
-      "students"
-    )
-  );
+  const snap = await getDocs(collection(db, "stages", stage, "students"));
 
   let exists = false;
 
-  snap.forEach(d => {
+  snap.forEach((d) => {
+    const student = d.data();
 
-    const student =
-      d.data();
-
-    if (
-      student.name.trim() === name
-    ) {
+    if (student.name.trim() === name) {
       exists = true;
     }
-
   });
 
   if (exists) {
-
     alert("الاسم موجود بالفعل");
 
     return;
@@ -151,32 +168,18 @@ window.addStudent = async function () {
 
   let lessons = {};
 
-  for (
-    let i = 1;
-    i <= settings.pieces;
-    i++
-  ) {
-
+  for (let i = 1; i <= settings.pieces; i++) {
     lessons[`piece${i}`] = 0;
-
   }
 
   /* =========================
      Add Student
   ========================= */
 
-  await addDoc(
-    collection(
-      db,
-      "stages",
-      stage,
-      "students"
-    ),
-    {
-      name,
-      lessons
-    }
-  );
+  await addDoc(collection(db, "stages", stage, "students"), {
+    name,
+    lessons,
+  });
 
   input.value = "";
 
@@ -202,15 +205,27 @@ function calculateTotal(lessons) {
 ========================= */
 let c = 0;
 let totalStudents = document.getElementById("totalStudents");
-function renderStudents(students) {
+function renderStudents(students = allStudents) {
   table.innerHTML = "";
 
-  students.forEach((student) => {
+  let dataToShow = showAll ? students : students.slice(0, 5);
+
+  dataToShow.forEach((student) => {
     let tr = document.createElement("tr");
 
+    /* =========================
+       NAME
+    ========================= */
+
     tr.innerHTML += `
-      <td class='name'>${student.name}</td>
+      <td class='name'>
+        ${student.name}
+      </td>
     `;
+
+    /* =========================
+       PIECES
+    ========================= */
 
     for (let i = 1; i <= settings.pieces; i++) {
       let val = student.lessons?.[`piece${i}`] || 0;
@@ -218,28 +233,63 @@ function renderStudents(students) {
       let max = settings.max?.[i - 1] || 10;
 
       tr.innerHTML += `
-        <td data-label="${settings.names[i - 1] + " ( " + settings.max[i - 1] + " ) "}">
+        <td
+          data-label="
+          ${settings.names[i - 1]}
+          (
+          ${settings.max[i - 1]}
+          )
+          "
+        >
+
           <input
             type="number"
+
             min="0"
+
             max="${max}"
+
             data-id="${student.id}"
+
             data-piece="piece${i}"
+
             value="${val}"
+
             style="width:60px"
           >
+
         </td>
       `;
     }
 
+    /* =========================
+       TOTAL
+    ========================= */
+
     let total = calculateTotal(student.lessons || {});
 
     tr.innerHTML += `
-      <td class='total'>${total}</td>
+      <td class='total'>
+        ${total}
+      </td>
     `;
+
     table.appendChild(tr);
   });
+
   attachEvents();
+
+  /* =========================
+     SHOW BUTTON
+  ========================= */
+
+  if (students.length <= 10) {
+    showAllBtn.style.display = "none";
+  } else {
+    showAllBtn.style.display = "block";
+
+    showAllBtn.innerHTML = showAll ? "عرض أقل" : "عرض الكل";
+  }
 }
 
 /* =========================
@@ -285,11 +335,19 @@ function attachEvents() {
 
       const max = settings.max?.[index] || 10;
 
+      /* =========================
+           Validation
+        ========================= */
+
       if (value < 0) value = 0;
 
       if (value > max) value = max;
 
       this.value = value;
+
+      /* =========================
+           Firebase Update
+        ========================= */
 
       const ref = doc(db, "stages", stage, "students", id);
 
@@ -297,7 +355,27 @@ function attachEvents() {
         [`lessons.${piece}`]: value,
       });
 
-      getStudents();
+      /* =========================
+           Local Update
+        ========================= */
+
+      const student = allStudents.find((s) => s.id === id);
+
+      if (!student.lessons) {
+        student.lessons = {};
+      }
+
+      student.lessons[piece] = value;
+
+      /* =========================
+           Update Total Only
+        ========================= */
+
+      const tr = this.closest("tr");
+
+      const totalTd = tr.querySelector(".total");
+
+      totalTd.innerHTML = calculateTotal(student.lessons);
     };
   });
 }
@@ -313,17 +391,35 @@ window.searchSuggestions = function () {
 
   suggestions.innerHTML = "";
 
+  /* =========================
+     EMPTY SEARCH
+  ========================= */
+
   if (!value) {
     renderStudents(allStudents);
 
     return;
   }
 
-  const filtered = allStudents
-    .filter((student) => student.name.toLowerCase().includes(value))
-    .slice(0, 5);
+  /* =========================
+     FILTER
+  ========================= */
 
-  filtered.forEach((student) => {
+  const filtered = allStudents.filter((student) =>
+    student.name.toLowerCase().includes(value),
+  );
+
+  /* =========================
+     RENDER TABLE
+  ========================= */
+
+  renderStudents(filtered);
+
+  /* =========================
+     SUGGESTIONS
+  ========================= */
+
+  filtered.slice(0, 5).forEach((student) => {
     const div = document.createElement("div");
 
     div.innerHTML = student.name;
@@ -338,10 +434,6 @@ window.searchSuggestions = function () {
 
     suggestions.appendChild(div);
   });
-
-  renderStudents(
-    allStudents.filter((student) => student.name.toLowerCase().includes(value)),
-  );
 };
 
 /* =========================
@@ -353,3 +445,102 @@ loadSettings().then(() => {
 
   getStudents();
 });
+
+window.backupExcel = async function () {
+  try {
+    const workbook = XLSX.utils.book_new();
+
+    const stagesSnap = await getDocs(collection(db, "stages"));
+
+    for (const stageDoc of stagesSnap.docs) {
+      const stageName = stageDoc.id;
+
+      /* =========================
+         SETTINGS
+      ========================= */
+
+      let settings = {
+        pieces: 0,
+        names: [],
+        max: [],
+      };
+
+      const settingsRef = doc(db, "stages", stageName, "settings", "main");
+
+      const settingsSnap = await getDoc(settingsRef);
+
+      if (settingsSnap.exists()) {
+        settings = settingsSnap.data();
+      }
+
+      /* =========================
+         STUDENTS
+      ========================= */
+
+      const studentsSnap = await getDocs(
+        collection(db, "stages", stageName, "students"),
+      );
+
+      let data = [];
+
+      studentsSnap.forEach((student) => {
+        const s = student.data();
+
+        let row = {
+          الاسم: s.name || "",
+        };
+
+        let total = 0;
+
+        for (let i = 1; i <= settings.pieces; i++) {
+          const lessonName = settings.names?.[i - 1] || `قطعة ${i}`;
+
+          const value = Number(s.lessons?.[`piece${i}`] || 0);
+
+          row[lessonName] = value;
+
+          total += value;
+        }
+
+        row["المجموع"] = total;
+
+        data.push(row);
+      });
+
+      /* =========================
+         لو مفيش طلاب
+      ========================= */
+
+      if (data.length === 0) {
+        data.push({
+          "لا يوجد بيانات": "",
+        });
+      }
+
+      /* =========================
+         SHEET
+      ========================= */
+
+      const worksheet = XLSX.utils.json_to_sheet(data);
+
+      XLSX.utils.book_append_sheet(workbook, worksheet, stageName.slice(0, 31));
+    }
+
+    /* =========================
+       DOWNLOAD
+    ========================= */
+
+    const date = new Date().toLocaleDateString("en-CA");
+
+    XLSX.writeFile(
+      workbook,
+      `Backup-${localStorage.getItem("stage")}-${date}.xlsx`,
+    );
+
+    alert("Backup Done");
+  } catch (error) {
+    alert(error.message);
+
+    console.error(error);
+  }
+};

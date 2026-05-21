@@ -11,8 +11,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
       integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+      referrerpolicy="no-referrer" />
 
     <title>Tassme3 HGF</title>
   </head>
@@ -41,8 +40,7 @@
                 type="text"
                 id="search"
                 placeholder="ابحث عن طالب"
-                oninput="searchSuggestions()"
-              />
+                oninput="searchSuggestions()" />
 
               <div id="suggestions"></div>
             </div>
@@ -57,9 +55,14 @@
               <tbody class="data"></tbody>
             </table>
           </div>
+
+          <div class="show-more-box">
+            <button id="showAllBtn">عرض الكل</button>
+          </div>
         </div>
       </div>
     </section>
     <script type="module" src="main.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
   </body>
 </html>

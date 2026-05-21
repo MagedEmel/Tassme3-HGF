@@ -6,43 +6,343 @@
     <link rel="icon" href="imgs/Logo HQ.png" />
     <title>اختيار المرحلة</title>
     <style>
-      section {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
       }
-      body div {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        width: 100%;
-      }
-      body div button {
-        width: 50%;
-        background-color: rgb(224, 161, 0);
-        border: none;
-        padding: 5px;
-        height: 35px;
-        font-weight: bold;
-        font-size: 20px;
-        border-radius: 10px;
-      }
+
       body {
-        background-image: url("imgs/Logo HQ.png");
+        min-height: 100vh;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+          url("imgs/Logo HQ.png");
+
         background-size: cover;
         background-position: center;
-        background-repeat: no-repeat;
-        height: 100vh;
+        overflow: hidden;
       }
-      button{
-        color: #000;
+
+      /* =========================
+   Background Animation
+========================= */
+
+      body::before,
+      body::after {
+        content: "";
+
+        position: absolute;
+
+        width: 350px;
+        height: 350px;
+
+        border-radius: 50%;
+
+        filter: blur(80px);
+
+        z-index: -1;
+
+        animation: move 8s infinite alternate;
+      }
+
+      body::before {
+        background: #ffb300;
+        top: -100px;
+        left: -100px;
+      }
+
+      body::after {
+        background: #ffd54f;
+        bottom: -100px;
+        right: -100px;
+      }
+
+      @keyframes move {
+        from {
+          transform: translateY(0px);
+        }
+
+        to {
+          transform: translateY(40px);
+        }
+      }
+
+      /* =========================
+   Form
+========================= */
+
+      form {
+        width: 420px;
+
+        padding: 40px 30px;
+
+        border-radius: 25px;
+
+        backdrop-filter: blur(15px);
+
+        background: rgba(255, 255, 255, 0.12);
+
+        border: 1px solid rgba(255, 255, 255, 0.2);
+
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 25px;
+
+        animation: show 0.8s ease;
+      }
+
+      @keyframes show {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* =========================
+   Title
+========================= */
+
+      form h1 {
+        text-align: center;
+
+        color: white;
+
+        font-size: 38px;
+
+        margin-bottom: 10px;
+
+        letter-spacing: 2px;
+      }
+
+      /* =========================
+   Inputs
+========================= */
+
+      form .field {
+        display: flex;
+        flex-direction: column;
+
+        gap: 10px;
+      }
+
+      label {
+        color: white;
+
+        font-size: 18px;
+
+        font-weight: bold;
+      }
+
+      input {
+        height: 50px;
+
+        border-radius: 14px;
+
+        border: none;
+
+        padding: 0 15px;
+
+        font-size: 17px;
+
+        background: rgba(255, 255, 255, 0.9);
+
+        transition: 0.3s;
+      }
+
+      input:focus {
+        transform: scale(1.02);
+
+        box-shadow: 0 0 15px rgba(255, 179, 0, 0.7);
+      }
+
+      /* =========================
+   Button
+========================= */
+
+      button {
+        height: 52px;
+
+        border: none;
+
+        border-radius: 15px;
+
+        background: linear-gradient(45deg, #ff9800, #ffc107);
+
+        color: white;
+
+        font-size: 20px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+
+        margin-top: 10px;
+      }
+
+      button:hover {
+        transform: translateY(-3px);
+
+        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.4);
+      }
+
+      button:active {
+        transform: scale(0.97);
+      }
+
+      /* =========================
+   Mobile
+========================= */
+
+      @media (max-width: 500px) {
+        form {
+          width: 92%;
+
+          padding: 30px 20px;
+        }
+
+        form h1 {
+          font-size: 30px;
+        }
       }
     </style>
   </head>
   <body>
+    <form>
+      <h1>Login</h1>
+
+      <div class="field">
+        <label for="email"> Email </label>
+
+        <input type="email" id="email" placeholder="Enter Your Email" />
+      </div>
+
+      <div class="field">
+        <label for="password"> Password </label>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter Your Password" />
+      </div>
+
+      <button type="button" onclick="login()">Login</button>
+    </form>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+      import {
+        getFirestore,
+        doc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+      /* =========================
+   Firebase Config
+========================= */
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBwX2D5tvQNIhekxDAR3qZsyGfiEWZ8sgo",
+
+        authDomain: "tassme3-hgf.firebaseapp.com",
+
+        projectId: "tassme3-hgf",
+
+        storageBucket: "tassme3-hgf.firebasestorage.app",
+
+        messagingSenderId: "583701432766",
+
+        appId: "1:583701432766:web:b949b263357ebae6d251ef",
+      };
+
+      /* =========================
+   Firebase Init
+========================= */
+
+      const app = initializeApp(firebaseConfig);
+
+      const auth = getAuth(app);
+
+      const db = getFirestore(app);
+
+      /* =========================
+   Login
+========================= */
+
+      window.login = async function () {
+        const email = document.getElementById("email").value;
+
+        const password = document.getElementById("password").value;
+
+        try {
+          const userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password,
+          );
+
+          const user = userCredential.user;
+
+          /* =========================
+       Get User Data
+    ========================= */
+
+          const userRef = doc(db, "users", user.uid);
+
+          const userSnap = await getDoc(userRef);
+
+          if (!userSnap.exists()) {
+            alert("لا يوجد صلاحية");
+
+            return;
+          }
+
+          const data = userSnap.data();
+
+          /* =========================
+       Save Data
+    ========================= */
+
+          localStorage.setItem("stage", data.stage);
+
+          localStorage.setItem("userName", data.name);
+
+          /* =========================
+       Redirect
+    ========================= */
+
+          window.location.href = "app.html";
+        } catch (error) {
+          console.log(error);
+
+          alert(error.message);
+        }
+      };
+    </script>
+  </body>
+</html>
+
+<!--
     <section>
       <div class="container">
         <div>
@@ -58,11 +358,4 @@
         </div>
       </div>
     </section>
-    <script>
-      function selectStage(stage) {
-        localStorage.setItem("stage", stage);
-        window.location.href = "app.html";
-      }
-    </script>
-  </body>
-</html>
+    -->
