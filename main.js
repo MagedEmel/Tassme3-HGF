@@ -49,10 +49,10 @@ if (!stage) {
 
 let grade = document.getElementById("grade");
 grade.innerHTML = localStorage.getItem("stage");
-let backword = document.getElementById("backword");
-backword.onclick = () => {
-  window.location = "index.html";
-};
+// let backword = document.getElementById("backword");
+// backword.onclick = () => {
+//   window.location = "index.html";
+// };
 /* =========================
    DOM
 ========================= */
