@@ -34,65 +34,101 @@ body {
 ========================= */
 
 header {
+  width: 100%;
+  min-height: 80px;
+  background: linear-gradient(135deg, #ffc10760, #47390c46);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   position: sticky;
   top: 0;
-
   z-index: 1000;
-
-  backdrop-filter: blur(12px);
-
-  background: rgba(255, 255, 255, 0.08);
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 header nav {
-  height: 75px;
+  width: 95%;
+  margin: auto;
+  min-height: 80px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 0 20px;
 }
 
-header nav h1 {
-  font-size: 30px;
-
-  color: #ffc107;
-
-  letter-spacing: 2px;
-
-  text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
-}
-
-header nav button {
-  width: 50px;
-  height: 50px;
-
-  border-radius: 14px;
-
-  border: none;
-
-  background: rgba(255, 255, 255, 0.12);
-
-  color: white;
-
-  font-size: 20px;
-
+#backword {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  background: white;
+  color: #d89b00;
+  font-size: 22px;
   cursor: pointer;
-
   transition: 0.3s;
 }
 
-header nav button:hover {
-  background: #ffc107;
+#backword:hover {
+  transform: scale(1.08);
+}
 
-  color: black;
+.title-box {
+  text-align: center;
+}
 
-  transform: translateY(-3px);
+.main-title {
+  font-size: 34px;
+  font-weight: 900;
+  color: white;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.25);
+}
+
+.sub-title {
+  font-size: 14px;
+  color: #fff;
+  opacity: 0.9;
+  margin-top: 3px;
+  letter-spacing: 1px;
+}
+
+#grade {
+  background: white;
+  color: #d89b00;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  min-width: 70px;
+  text-align: center;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 768px) {
+
+  header nav {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 0;
+  }
+
+  .main-title {
+    font-size: 28px;
+  }
+
+  .sub-title {
+    font-size: 12px;
+  }
+
+  #grade {
+    font-size: 16px;
+    padding: 6px 14px;
+  }
+
+  #backword {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
 }
 
 /* =========================
