@@ -10,6 +10,7 @@ import {
   doc,
   addDoc,
   getDoc,
+  onSnapshot,
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 import {
@@ -296,26 +297,42 @@ function renderStudents(students = allStudents) {
    Get Students
 ========================= */
 
-async function getStudents() {
-  const snap = await getDocs(collection(db, "stages", stage, "students"));
+function getStudents() {
+  onSnapshot(
+    collection(db, "stages", stage, "students"),
 
-  let students = [];
+    (snap) => {
+      let students = [];
 
-  snap.forEach((d) => {
-    students.push({
-      id: d.id,
-      ...d.data(),
-    });
+      snap.forEach((d) => {
+        students.push({
+          id: d.id,
+          ...d.data(),
+        });
+      });
 
-    c++;
-    totalStudents.innerHTML = c;
-  });
-  c = 0;
-  students.sort((a, b) => a.name.localeCompare(b.name, "ar"));
+      students.sort((a, b) => a.name.localeCompare(b.name, "ar"));
 
-  allStudents = students;
+      allStudents = students;
 
-  renderStudents(students);
+      totalStudents.innerHTML = students.length;
+
+      const searchValue = document
+        .getElementById("search")
+        .value.trim()
+        .toLowerCase();
+
+      if (searchValue) {
+        const filtered = allStudents.filter((student) =>
+          student.name.toLowerCase().includes(searchValue),
+        );
+
+        renderStudents(filtered);
+      } else {
+        renderStudents(allStudents);
+      }
+    },
+  );
 }
 
 /* =========================
