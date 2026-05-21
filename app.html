@@ -11,7 +11,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
       integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer" />
+      referrerpolicy="no-referrer"
+    />
 
     <title>Tassme3 HGF</title>
   </head>
@@ -22,21 +23,29 @@
         <h1 id="grade">BC</h1>
       </nav>
     </header>
+    <h2 class="totalStudnetText">
+      عدد الفرقة كلها : <span id="totalStudents">0</span>
+    </h2>
 
     <section id="hero">
       <div class="container">
         <div>
-          
           <div class="controls">
             <div>
               <input id="studentName" placeholder="اسم الطالب" />
 
               <button onclick="addStudent()">إضافة</button>
             </div>
-            <input
-              id="searchInput"
-              placeholder="بحث..."
-              onkeyup="searchStudents()" />
+            <div class="search-box">
+              <input
+                type="text"
+                id="search"
+                placeholder="ابحث عن طالب"
+                oninput="searchSuggestions()"
+              />
+
+              <div id="suggestions"></div>
+            </div>
           </div>
 
           <div class="table-wrapper">
