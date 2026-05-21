@@ -142,6 +142,7 @@ header nav button:hover {
   align-items: center;
 
   gap: 15px;
+  direction: rtl;
 }
 
 .controls input {
