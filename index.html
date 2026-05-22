@@ -17,6 +17,8 @@
         min-height: 100vh;
 
         display: flex;
+        flex-direction: column;
+        gap: 25px;
         justify-content: center;
         align-items: center;
 
@@ -220,9 +222,34 @@
           font-size: 30px;
         }
       }
+
+      .title-box {
+        text-align: center;
+      }
+
+      .main-title {
+        font-size: 34px;
+        font-weight: 900;
+        color: white;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+        letter-spacing: 5px;
+      }
+
+      .sub-title {
+        font-size: 14px;
+        color: #fff;
+        opacity: 0.9;
+        margin-top: 3px;
+        letter-spacing: 1px;
+      }
     </style>
   </head>
   <body>
+    <div class="title-box">
+      <h1 class="main-title">برج حصين</h1>
+      <p class="sub-title">مسابقة الحقظ 2026</p>
+    </div>
     <form>
       <h1>Login</h1>
 
@@ -238,7 +265,8 @@
         <input
           type="password"
           id="password"
-          placeholder="Enter Your Password" />
+          placeholder="Enter Your Password"
+        />
       </div>
 
       <button type="button" onclick="login()">Login</button>
