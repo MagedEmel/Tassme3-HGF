@@ -43,7 +43,7 @@ const db = getFirestore(app);
 const stage = localStorage.getItem("stage");
 
 if (!stage) {
-  alert("اختار المرحلة الأول");
+  alert("اعمل Login الاول");
   window.location.href = "index.html";
 }
 
@@ -82,6 +82,7 @@ setInterval(() => {
   if(i == messges.length - 1) i = 0;
   else i++;
 }, 5000);
+
 /* =========================
    DOM
 ========================= */
