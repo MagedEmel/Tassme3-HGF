@@ -334,7 +334,6 @@
           /* =========================
        Get User Data
     ========================= */
-
           const userRef = doc(db, "users", user.uid);
 
           const userSnap = await getDoc(userRef);
@@ -358,8 +357,8 @@
           /* =========================
        Redirect
     ========================= */
-
-          window.location.href = "app.html";
+          if(data.role == "admin") window.location.href = "stage.html";
+          else window.location.href = "app.html";
         } catch (error) {
           console.log(error);
 

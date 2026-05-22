@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .title-box {
+        text-align: center;
+      }
+
+      .main-title {
+        font-size: 34px;
+        font-weight: 900;
+        color: white;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+        letter-spacing: 5px;
+      }
+
+      .sub-title {
+        font-size: 14px;
+        color: #fff;
+        opacity: 0.9;
+        margin-top: 3px;
+        letter-spacing: 1px;
+      }
+      section .container div{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+      }
+      button {
+        height: 52px;
+
+        border: none;
+
+        border-radius: 15px;
+
+        background: linear-gradient(45deg, #ff9800, #ffc107);
+
+        color: white;
+
+        font-size: 20px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+
+        margin-top: 10px;
+      }
+
+      button:hover {
+        transform: translateY(-3px);
+
+        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.4);
+      }
+
+      button:active {
+        transform: scale(0.97);
+      }
+
+      body::before,
+      body::after {
+        content: "";
+
+        position: absolute;
+
+        width: 350px;
+        height: 350px;
+
+        border-radius: 50%;
+
+        filter: blur(80px);
+
+        z-index: -1;
+
+        animation: move 8s infinite alternate;
+      }
+
+      body::before {
+        background: #ffb300;
+        top: -100px;
+        left: -100px;
+      }
+
+      body::after {
+        background: #ffd54f;
+        bottom: -100px;
+        right: -100px;
+      }
+
+      body {
+        min-height: 100vh;
+
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        justify-content: center;
+        align-items: center;
+
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+          url("imgs/Logo HQ.png");
+
+        background-size: cover;
+        background-position: center;
+        overflow: hidden;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="title-box">
+      <h1 class="main-title">برج حصين</h1>
+      <p class="sub-title">مسابقة الحقظ 2026</p>
+    </div>
+    <section>
+      <div class="container">
+        <div>
+          <button onclick="selectStage('BC')">BC</button>
+          <button onclick="selectStage('KG1')">KG1</button>
+          <button onclick="selectStage('KG2')">KG2</button>
+          <button onclick="selectStage('اولي ابتدائي')">أولى ابتدائي</button>
+          <button onclick="selectStage('تانية ابتدائي')">تانية ابتدائي</button>
+          <button onclick="selectStage('تالتة ابتدائي')">تالتة ابتدائي</button>
+          <button onclick="selectStage('رابعة ابتدائي')">رابعة ابتدائي</button>
+          <button onclick="selectStage('خامسة ابتدائي')">خامسة ابتدائي</button>
+          <button onclick="selectStage('ساتة ابتدائي')">ساتة ابتدائي</button>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      function selectStage(stage) {
+        localStorage.setItem("stage", stage);
+        window.location.href = "app.html";
+      }
+    </script>
+  </body>
+</html>

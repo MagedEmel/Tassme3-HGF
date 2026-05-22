@@ -81,7 +81,7 @@ setInterval(() => {
   messge.innerHTML = messges[i];
   if(i == messges.length - 1) i = 0;
   else i++;
-}, 5000);
+}, 60000 * 60 * 24);
 
 /* =========================
    DOM
@@ -146,18 +146,17 @@ function renderHeader() {
   if (!theadRow) return;
 
   theadRow.innerHTML = `<th id="name">الاسم</th>`;
-
+  let t = 0;
   for (let i = 1; i <= settings.pieces; i++) {
     const lessonName =
-      settings.names?.[i - 1] + " ( " + settings.max[i - 1] + " ) " ||
-      `قطعة ${i}`;
-
+      " ( " + settings.max[i - 1] + " ) " + settings.names?.[i - 1] ;
+    t+= settings.max[i - 1];
     theadRow.innerHTML += `
       <th>${lessonName}</th>
     `;
   }
 
-  theadRow.innerHTML += `<th>المجموع</th>`;
+  theadRow.innerHTML += `<th> ( ${t} ) المجموع</th>`;
 }
 
 /* =========================
