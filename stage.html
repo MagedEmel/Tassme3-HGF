@@ -30,7 +30,7 @@
         margin-top: 3px;
         letter-spacing: 1px;
       }
-      section .container div{
+      section .container div {
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
@@ -38,8 +38,9 @@
         justify-content: center;
       }
       button {
-        height: 52px;
+        height: 40px;
 
+        width: 200px;
         border: none;
 
         border-radius: 15px;
@@ -100,11 +101,10 @@
       }
 
       body {
-        min-height: 100vh;
-
+        height: 100vh;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
-        gap: 25px;
         justify-content: center;
         align-items: center;
 
@@ -112,9 +112,8 @@
           linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
           url("imgs/Logo HQ.png");
 
-        background-size: cover;
+        background-size: contain;
         background-position: center;
-        overflow: hidden;
       }
     </style>
     <title>Document</title>
