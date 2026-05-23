@@ -115,8 +115,372 @@
         background-size: cover;
         background-position: center;
       }
+      .popup {
+        position: fixed;
+
+        inset: 0;
+
+        background: rgba(0, 0, 0, 0.75);
+
+        display: none;
+
+        justify-content: center;
+
+        align-items: center;
+
+        padding: 20px;
+
+        z-index: 999;
+
+        backdrop-filter: blur(6px);
+      }
+
+      .popup-box {
+        width: 100%;
+
+        max-width: 500px;
+
+        max-height: 90vh;
+
+        overflow-y: auto;
+
+        background: linear-gradient(
+          180deg,
+          rgba(30, 30, 30, 0.97),
+          rgba(10, 10, 10, 0.97)
+        );
+
+        border-radius: 28px;
+
+        padding: 25px;
+
+        border: 2px solid #ffc107;
+
+        box-shadow:
+          0 0 30px rgba(255, 193, 7, 0.3),
+          0 0 80px rgba(255, 193, 7, 0.1);
+
+        animation: pop 0.35s ease;
+      }
+
+      @keyframes pop {
+        from {
+          opacity: 0;
+
+          transform: scale(0.85) translateY(30px);
+        }
+
+        to {
+          opacity: 1;
+
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .popup-box h2 {
+        color: white;
+
+        margin-bottom: 20px;
+
+        font-size: 30px;
+
+        text-align: center;
+
+        text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+      }
+
+      .actions {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 12px;
+
+        margin-bottom: 20px;
+      }
+
+      .actions button {
+        width: 100%;
+      }
+
+      input {
+        width: 100%;
+
+        padding: 15px;
+
+        border-radius: 15px;
+
+        border: 2px solid transparent;
+
+        background: rgba(255, 255, 255, 0.08);
+
+        color: white;
+
+        outline: none;
+
+        margin-top: 12px;
+
+        font-size: 16px;
+
+        transition: 0.3s;
+      }
+
+      input:focus {
+        border-color: #ffc107;
+
+        box-shadow: 0 0 15px rgba(255, 193, 7, 0.25);
+      }
+
+      input::placeholder {
+        color: #ddd;
+      }
+
+      .result {
+        margin-top: 20px;
+      }
+
+      .studentCard {
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.09),
+          rgba(255, 255, 255, 0.03)
+        );
+
+        border: 1px solid rgba(255, 193, 7, 0.4);
+
+        border-radius: 22px;
+
+        padding: 20px;
+
+        color: white;
+
+        backdrop-filter: blur(10px);
+
+        animation: fadeCard 0.4s ease;
+      }
+
+      @keyframes fadeCard {
+        from {
+          opacity: 0;
+
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+
+          transform: translateY(0);
+        }
+      }
+
+      .studentCard h2 {
+        text-align: center;
+
+        margin-bottom: 20px;
+
+        color: #ffd54f;
+
+        font-size: 28px;
+      }
+
+      .lessons {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+
+        gap: 12px;
+
+        max-height: 300px;
+
+        overflow-y: auto;
+
+        padding-right: 5px;
+      }
+
+      .lessons::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .lessons::-webkit-scrollbar-thumb {
+        background: #ffc107;
+
+        border-radius: 20px;
+      }
+
+      .lessonBox {
+        background: rgba(255, 255, 255, 0.07);
+
+        border: 1px solid rgba(255, 255, 255, 0.08);
+
+        border-radius: 16px;
+
+        padding: 12px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        min-height: 90px;
+
+        text-align: center;
+
+        transition: 0.3s;
+      }
+
+      .lessonBox:hover {
+        transform: translateY(-3px);
+
+        background: rgba(255, 193, 7, 0.15);
+      }
+
+      .lessonBox span:first-child {
+        font-size: 14px;
+
+        color: #eee;
+
+        line-height: 1.5;
+      }
+
+      .lessonBox span:last-child {
+        font-size: 28px;
+
+        font-weight: bold;
+
+        color: #ffd54f;
+      }
+
+      .total {
+        margin-top: 20px;
+
+        text-align: center;
+
+        font-size: 26px;
+
+        font-weight: bold;
+
+        color: #ffeb3b;
+
+        padding: 15px;
+
+        border-radius: 15px;
+
+        background: rgba(255, 193, 7, 0.12);
+      }
+
+      .notFound {
+        text-align: center;
+
+        margin-top: 20px;
+
+        color: #ff4d4d;
+
+        font-size: 22px;
+
+        font-weight: bold;
+      }
+
+      .closeBtn {
+        background: linear-gradient(45deg, crimson, #ff4d6d);
+
+        margin-top: 20px;
+
+        width: 100%;
+      }
+
+      @media (max-width: 600px) {
+        .popup-box {
+          padding: 20px;
+        }
+
+        .actions {
+          grid-template-columns: 1fr;
+        }
+
+        .studentCard h2 {
+          font-size: 22px;
+        }
+
+        .lessonBox span:last-child {
+          font-size: 22px;
+        }
+      }
+
+      .suggestions {
+        margin-top: 10px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 8px;
+      }
+
+      .suggestionItem {
+        background: rgba(255, 255, 255, 0.08);
+
+        border: 1px solid rgba(255, 193, 7, 0.25);
+
+        padding: 12px 15px;
+
+        border-radius: 14px;
+
+        color: white;
+
+        cursor: pointer;
+
+        transition: 0.25s;
+
+        backdrop-filter: blur(8px);
+      }
+
+      .suggestionItem:hover {
+        background: rgba(255, 193, 7, 0.18);
+
+        transform: translateX(-5px);
+      }
+
+      .totalOnly {
+        margin-top: 20px;
+
+        background: rgba(255, 193, 7, 0.12);
+
+        border: 2px solid rgba(255, 193, 7, 0.35);
+
+        border-radius: 22px;
+
+        padding: 25px;
+
+        text-align: center;
+
+        animation: fadeCard 0.4s ease;
+      }
+
+      .totalOnly h2 {
+        color: white;
+
+        margin-bottom: 20px;
+
+        font-size: 28px;
+      }
+
+      .bigTotal {
+        font-size: 65px;
+
+        font-weight: bold;
+
+        color: #ffd54f;
+
+        text-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+      }
     </style>
-    <title>Document</title>
+    <link rel="icon" href="imgs/logo.png" />
+    <title>Stage HGF</title>
   </head>
   <body>
     <div class="title-box">
@@ -126,24 +490,515 @@
     <section>
       <div class="container">
         <div>
-          <button onclick="selectStage('BC')">BC</button>
-          <button onclick="selectStage('KG1')">KG1</button>
-          <button onclick="selectStage('KG2')">KG2</button>
-          <button onclick="selectStage('اولي ابتدائي')">أولى ابتدائي</button>
-          <button onclick="selectStage('تانية ابتدائي')">تانية ابتدائي</button>
-          <button onclick="selectStage('تالتة ابتدائي')">تالتة ابتدائي</button>
-          <button onclick="selectStage('رابعة ابتدائي')">رابعة ابتدائي</button>
-          <button onclick="selectStage('خامسة ابتدائي')">خامسة ابتدائي</button>
-          <button onclick="selectStage('ساتة ابتدائي')">ساتة ابتدائي</button>
+          <button onclick="openMenu('BC')">BC</button>
+
+          <button onclick="openMenu('KG1')">KG1</button>
+
+          <button onclick="openMenu('KG2')">KG2</button>
+
+          <button onclick="openMenu('اولي ابتدائي')">أولى ابتدائي</button>
+
+          <button onclick="openMenu('تانية ابتدائي')">تانية ابتدائي</button>
+
+          <button onclick="openMenu('تالتة ابتدائي')">تالتة ابتدائي</button>
+
+          <button onclick="openMenu('رابعة ابتدائي')">رابعة ابتدائي</button>
+
+          <button onclick="openMenu('خامسة ابتدائي')">خامسة ابتدائي</button>
+
+          <button onclick="openMenu('ساتة ابتدائي')">ساتة ابتدائي</button>
         </div>
       </div>
     </section>
 
+    <div class="popup" id="popup">
+      <div class="popup-box">
+        <h2 id="stageTitle"></h2>
+
+        <div class="actions">
+          <button onclick="showAdd()">إضافة</button>
+
+          <button onclick="showEdit()">تعديل</button>
+
+          <button onclick="showSearch()">عرض</button>
+          <button onclick="showAll()">عرض الكل</button>
+        </div>
+
+        <div id="dynamicContent"></div>
+
+        <button class="closeBtn" onclick="closePopup()">إغلاق</button>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        addDoc,
+        updateDoc,
+        query,
+        where,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBwX2D5tvQNIhekxDAR3qZsyGfiEWZ8sgo",
+        authDomain: "tassme3-hgf.firebaseapp.com",
+        projectId: "tassme3-hgf",
+        storageBucket: "tassme3-hgf.firebasestorage.app",
+        messagingSenderId: "583701432766",
+        appId: "1:583701432766:web:b949b263357ebae6d251ef",
+        measurementId: "G-S22M40LVRC",
+      };
+
+      const app = initializeApp(firebaseConfig);
+
+      const db = getFirestore(app);
+
+      window.db = db;
+
+      window.collection = collection;
+
+      window.getDocs = getDocs;
+
+      window.addDoc = addDoc;
+
+      window.updateDoc = updateDoc;
+
+      window.query = query;
+
+      window.where = where;
+    </script>
+
     <script>
-      function selectStage(stage) {
-        localStorage.setItem("stage", stage);
+      let selectedStage = "";
+
+      function openMenu(stage) {
+        selectedStage = stage;
+
+        document.getElementById("popup").style.display = "flex";
+
+        document.getElementById("stageTitle").innerText = stage;
+
+        document.getElementById("dynamicContent").innerHTML = "";
+      }
+
+      function closePopup() {
+        document.getElementById("popup").style.display = "none";
+      }
+
+      /* =========================
+      ADD
+  ========================= */
+
+      function showAdd() {
+        document.getElementById("dynamicContent").innerHTML = `
+
+    <input
+      id="addName"
+      placeholder="اسم الطفل"
+    >
+
+    <button onclick="addStudent()">
+      إضافة الطفل
+    </button>
+
+  `;
+      }
+
+      async function addStudent() {
+        let name = document.getElementById("addName").value.trim();
+
+        if (name == "") {
+          alert("اكتب الاسم");
+
+          return;
+        }
+
+        try {
+          const studentsRef = collection(
+            db,
+            "stages",
+            selectedStage,
+            "students",
+          );
+
+          const snap = await getDocs(studentsRef);
+
+          let exists = false;
+
+          snap.forEach((docu) => {
+            const data = docu.data();
+
+            if (data.name.toLowerCase() == name.toLowerCase()) {
+              exists = true;
+            }
+          });
+
+          if (exists) {
+            alert("الاسم موجود بالفعل");
+
+            return;
+          }
+
+          await addDoc(studentsRef, {
+            name: name,
+            lessons: {},
+          });
+
+          alert("تم إضافة الطفل");
+
+          document.getElementById("addName").value = "";
+        } catch (error) {
+          console.log(error);
+
+          alert("حصل خطأ");
+        }
+      }
+      /* =========================
+      EDIT
+  ========================= */
+
+      function showEdit() {
+        document.getElementById("dynamicContent").innerHTML = `
+
+    <input
+      id="oldName"
+      placeholder="الاسم الحالي"
+      oninput="liveEditSearch(this.value)"
+    >
+
+    <div
+      class="suggestions"
+      id="editSuggestions">
+    </div>
+
+    <input
+      id="newName"
+      placeholder="الاسم الجديد"
+    >
+
+    <button onclick="editStudent()">
+      تعديل الاسم
+    </button>
+
+  `;
+      }
+      async function editStudent() {
+        let oldName = document.getElementById("oldName").value.trim();
+
+        let newName = document.getElementById("newName").value.trim();
+
+        if (oldName == "" || newName == "") {
+          alert("املا كل البيانات");
+
+          return;
+        }
+
+        try {
+          const studentsRef = collection(
+            db,
+            "stages",
+            selectedStage,
+            "students",
+          );
+
+          const snap = await getDocs(studentsRef);
+
+          let found = false;
+
+          let exists = false;
+
+          for (const docu of snap.docs) {
+            const data = docu.data();
+
+            if (data.name.toLowerCase() == newName.toLowerCase()) {
+              exists = true;
+            }
+
+            if (data.name.toLowerCase() == oldName.toLowerCase()) {
+              found = docu;
+            }
+          }
+
+          if (exists) {
+            alert("الاسم الجديد موجود بالفعل");
+
+            return;
+          }
+
+          if (!found) {
+            alert("الاسم الحالي غير موجود");
+
+            return;
+          }
+
+          await updateDoc(found.ref, {
+            name: newName,
+          });
+
+          alert("تم تعديل الاسم");
+
+          document.getElementById("oldName").value = "";
+
+          document.getElementById("newName").value = "";
+
+          document.getElementById("editSuggestions").innerHTML = "";
+        } catch (error) {
+          console.log(error);
+
+          alert("حصل خطأ");
+        }
+      }
+      /* =========================
+      SEARCH
+  ========================= */
+
+      function showSearch() {
+        document.getElementById("dynamicContent").innerHTML = `
+
+    <input
+      id="searchName"
+      placeholder="ابحث باسم الطفل"
+      oninput="liveSearch(this.value)"
+    >
+
+    <div
+      class="suggestions"
+      id="suggestions">
+    </div>
+
+    <div
+      class="result"
+      id="result">
+    </div>
+
+  `;
+      }
+      async function liveSearch(value) {
+        const suggestions = document.getElementById("suggestions");
+
+        suggestions.innerHTML = "";
+
+        if (value.trim() == "") return;
+
+        try {
+          const studentsRef = collection(
+            db,
+            "stages",
+            selectedStage,
+            "students",
+          );
+
+          const snap = await getDocs(studentsRef);
+
+          let counter = 0;
+
+          snap.forEach((docu) => {
+            const data = docu.data();
+
+            if (
+              data.name.toLowerCase().includes(value.toLowerCase()) &&
+              counter < 5
+            ) {
+              suggestions.innerHTML += `
+
+          <div
+            class="suggestionItem"
+            onclick="chooseStudent('${data.name}')">
+
+            👦 ${data.name}
+
+          </div>
+
+        `;
+
+              counter++;
+            }
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      function chooseStudent(name) {
+        document.getElementById("searchName").value = name;
+
+        document.getElementById("suggestions").innerHTML = "";
+
+        searchStudent();
+      }
+      async function liveEditSearch(value) {
+        const suggestions = document.getElementById("editSuggestions");
+
+        suggestions.innerHTML = "";
+
+        if (value.trim() == "") return;
+
+        try {
+          const studentsRef = collection(
+            db,
+            "stages",
+            selectedStage,
+            "students",
+          );
+
+          const snap = await getDocs(studentsRef);
+
+          let counter = 0;
+
+          snap.forEach((docu) => {
+            const data = docu.data();
+
+            if (
+              data.name.toLowerCase().includes(value.toLowerCase()) &&
+              counter < 5
+            ) {
+              suggestions.innerHTML += `
+
+          <div
+            class="suggestionItem"
+            onclick="chooseEditStudent('${data.name}')">
+
+            👦 ${data.name}
+
+          </div>
+
+        `;
+
+              counter++;
+            }
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      function chooseEditStudent(name) {
+        document.getElementById("oldName").value = name;
+
+        document.getElementById("editSuggestions").innerHTML = "";
+      }
+
+      function chooseStudent(name) {
+        document.getElementById("searchName").value = name;
+
+        document.getElementById("suggestions").innerHTML = "";
+
+        searchStudent();
+      }
+      async function searchStudent() {
+        let name = document.getElementById("searchName").value;
+
+        if (name == "") return;
+
+        const result = document.getElementById("result");
+
+        result.innerHTML = "جاري البحث...";
+
+        try {
+          const studentsRef = collection(
+            db,
+            "stages",
+            selectedStage,
+            "students",
+          );
+
+          const snap = await getDocs(studentsRef);
+
+          let found = false;
+
+          snap.forEach((docu) => {
+            const data = docu.data();
+
+            if (data.name.toLowerCase() == name.toLowerCase()) {
+              found = true;
+
+              let total = 0;
+
+              if (data.lessons) {
+                for (let key in data.lessons) {
+                  total += Number(data.lessons[key]);
+                }
+              }
+
+              result.innerHTML = `
+
+          <div class="totalOnly">
+
+            <h2>
+              👦 ${data.name}
+            </h2>
+
+            <div class="bigTotal">
+
+              ${total}
+
+            </div>
+
+          </div>
+
+        `;
+            }
+          });
+
+          if (!found) {
+            result.innerHTML = `
+
+        <div class="notFound">
+
+          ❌ الطفل غير موجود
+
+        </div>
+
+      `;
+          }
+        } catch (error) {
+          console.log(error);
+
+          result.innerHTML = "حصل خطأ";
+        }
+      }
+      function showAll() {
+        localStorage.setItem("stage", selectedStage);
+
         window.location.href = "app.html";
       }
+
+      async function loadStudentsNames() {
+        const list = document.getElementById("studentsList");
+
+        list.innerHTML = "";
+
+        try {
+          const studentsRef = collection(
+            db,
+            "stages",
+            selectedStage,
+            "students",
+          );
+
+          const snap = await getDocs(studentsRef);
+
+          snap.forEach((docu) => {
+            const data = docu.data();
+
+            list.innerHTML += `
+
+        <option
+          value="${data.name}">
+        </option>
+
+      `;
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
     </script>
+
+    <datalist id="studentsList"></datalist>
   </body>
 </html>
