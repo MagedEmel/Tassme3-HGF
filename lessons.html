@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PDF Lessons</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial;
+    background:#f3f4f6;
+    padding:40px;
+}
+
+.container{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.mainBtn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.options{
+    margin-top:15px;
+    display:none;
+    flex-direction:column;
+    gap:10px;
+}
+
+.options button,
+.options a{
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    text-decoration:none;
+    color:white;
+    font-size:16px;
+}
+
+.pdfBtn{
+    background:#16a34a;
+}
+
+.imgBtn{
+    background:#dc2626;
+}
+
+</style>
+
+<!-- PDF JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+</script>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Lesson 1 -->
+    <div class="card">
+
+        <button class="mainBtn" onclick="toggleOptions(1)">
+            Lesson 1
+        </button>
+
+        <div class="options" id="options1">
+
+            <!-- تحميل PDF -->
+            <a class="pdfBtn"
+               href="pdfs/2.pdf"
+               download>
+               Download PDF
+            </a>
+
+            <!-- تحميل الصور -->
+            <button class="imgBtn"
+                    onclick="downloadPdfAsImages('pdfs/2.pdf')">
+                Download Images
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function toggleOptions(id){
+
+    let options = document.getElementById("options" + id);
+
+    if(options.style.display === "flex"){
+        options.style.display = "none";
+    }else{
+        options.style.display = "flex";
+    }
+
+}
+
+async function downloadPdfAsImages(pdfUrl){
+
+    const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+
+    for(let pageNum = 1; pageNum <= pdf.numPages; pageNum++){
+
+        const page = await pdf.getPage(pageNum);
+
+        const viewport = page.getViewport({ scale: 2 });
+
+        const canvas = document.createElement("canvas");
+
+        const context = canvas.getContext("2d");
+
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({
+            canvasContext: context,
+            viewport: viewport
+        }).promise;
+
+        const image = canvas.toDataURL("image/png");
+
+console.log(image);
+        const a = document.createElement("a");
+
+        a.href = image;
+
+        a.download = `page-${pageNum}.png`;
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        document.body.removeChild(a);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

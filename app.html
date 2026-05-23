@@ -27,7 +27,6 @@
           <h1 class="main-title">برج حصين</h1>
           <p class="sub-title">مسابقة الحقظ 2026</p>
         </div>
-
       </nav>
     </header>
 
@@ -53,6 +52,8 @@
                 placeholder="ابحث عن طالب"
                 oninput="searchSuggestions()" />
 
+              <button id="searchBtn">عرض الطالب</button>
+
               <div id="suggestions"></div>
             </div>
           </div>
@@ -67,12 +68,27 @@
             </table>
           </div>
 
-          <div class="show-more-box">
-            <button id="showAllBtn">عرض الكل</button>
-          </div>
         </div>
       </div>
     </section>
+
+    <!-- =========================
+     Confirm Popup
+========================= -->
+
+    <div id="confirmPopup" class="popup-overlay">
+      <div class="popup-box">
+        <h2>تأكيد التعديل</h2>
+
+        <p id="popupText"></p>
+
+        <div class="popup-buttons">
+          <button id="cancelBtn">إلغاء</button>
+
+          <button id="confirmBtn">تأكيد</button>
+        </div>
+      </div>
+    </div>
     <script type="module" src="main.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
   </body>

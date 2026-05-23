@@ -75,13 +75,10 @@ let messges = [
   "اَ تُسْرِعْ بِرُوحِكَ إِلَى الْغَضَبِ، لأَنَّ الْغَضَبَ يَسْتَقِرُّ فِي حِضْنِ الْجُهَّالِ",
 ];
 let messge = document.getElementById("messge");
-let i = 1;
-messge.innerHTML = messges[0];
-setInterval(() => {
-  messge.innerHTML = messges[i];
-  if(i == messges.length - 1) i = 0;
-  else i++;
-}, 60000 * 60 * 24);
+const dayIndex =
+  Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % messges.length;
+
+messge.innerHTML = messges[dayIndex];
 
 /* =========================
    DOM
@@ -90,32 +87,11 @@ setInterval(() => {
 const table = document.querySelector("tbody.data");
 
 let allStudents = [];
-let showAll = false;
-
-const showAllBtn = document.getElementById("showAllBtn");
+let currentStudent = "";
 /* =========================
    SHOW ALL BUTTON
 ========================= */
 
-showAllBtn.onclick = function () {
-  showAll = !showAll;
-
-  const value = document.getElementById("search").value.trim().toLowerCase();
-
-  /* =========================
-     لو فيه سيرش
-  ========================= */
-
-  if (value) {
-    const filtered = allStudents.filter((student) =>
-      student.name.toLowerCase().includes(value),
-    );
-
-    renderStudents(filtered);
-  } else {
-    renderStudents(allStudents);
-  }
-};
 /* =========================
    Settings
 ========================= */
@@ -124,6 +100,29 @@ let settings = {
   pieces: 4,
   max: [10, 10, 10, 10],
   names: [],
+};
+
+const searchBtn = document.getElementById("searchBtn");
+
+searchBtn.onclick = function () {
+  const value = document
+    .getElementById("search")
+    .value.trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+
+  if (!value) {
+    table.innerHTML = "";
+    return;
+  }
+  currentStudent = value;
+  const filtered = allStudents.filter((student) => {
+    const studentName = student.name.trim().toLowerCase().replace(/\s+/g, " ");
+
+    return studentName === value;
+  });
+
+  renderStudents(filtered);
 };
 
 async function loadSettings() {
@@ -149,8 +148,8 @@ function renderHeader() {
   let t = 0;
   for (let i = 1; i <= settings.pieces; i++) {
     const lessonName =
-      " ( " + settings.max[i - 1] + " ) " + settings.names?.[i - 1] ;
-    t+= settings.max[i - 1];
+      " ( " + settings.max[i - 1] + " ) " + settings.names?.[i - 1];
+    t += settings.max[i - 1];
     theadRow.innerHTML += `
       <th>${lessonName}</th>
     `;
@@ -238,8 +237,7 @@ let totalStudents = document.getElementById("totalStudents");
 function renderStudents(students = allStudents) {
   table.innerHTML = "";
 
-  let dataToShow = showAll ? students : students.slice(0, 5);
-
+  let dataToShow = students;
   dataToShow.forEach((student) => {
     let tr = document.createElement("tr");
 
@@ -312,14 +310,6 @@ function renderStudents(students = allStudents) {
   /* =========================
      SHOW BUTTON
   ========================= */
-
-  if (students.length <= 5) {
-    showAllBtn.style.display = "none";
-  } else {
-    showAllBtn.style.display = "block";
-
-    showAllBtn.innerHTML = showAll ? "عرض أقل" : "عرض الكل";
-  }
 }
 
 /* =========================
@@ -351,15 +341,21 @@ function getStudents() {
         .value.trim()
         .toLowerCase();
 
-      if (searchValue) {
-        const filtered = allStudents.filter((student) =>
-          student.name.toLowerCase().includes(searchValue),
-        );
-
-        renderStudents(filtered);
-      } else {
-        renderStudents(allStudents);
+      if (!currentStudent) {
+        table.innerHTML = "";
+        return;
       }
+
+      const filtered = allStudents.filter((student) => {
+        const studentName = student.name
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, " ");
+
+        return studentName === currentStudent;
+      });
+
+      renderStudents(filtered);
     },
   );
 }
@@ -370,7 +366,7 @@ function getStudents() {
 
 function attachEvents() {
   document.querySelectorAll("input[type='number']").forEach((input) => {
-    input.onchange = async function () {
+    input.onblur  = function () {
       const id = this.dataset.id;
 
       const piece = this.dataset.piece;
@@ -379,11 +375,7 @@ function attachEvents() {
 
       const index = Number(piece.replace("piece", "")) - 1;
 
-      const max = settings.max?.[index] || 10;
-
-      /* =========================
-           Validation
-        ========================= */
+      const max = settings.max?.[index];
 
       if (value < 0) value = 0;
 
@@ -391,41 +383,71 @@ function attachEvents() {
 
       this.value = value;
 
-      /* =========================
-           Firebase Update
-        ========================= */
-
-      const ref = doc(db, "stages", stage, "students", id);
-
-      await updateDoc(ref, {
-        [`lessons.${piece}`]: value,
-      });
-
-      /* =========================
-           Local Update
-        ========================= */
-
       const student = allStudents.find((s) => s.id === id);
 
-      if (!student.lessons) {
-        student.lessons = {};
-      }
-
-      student.lessons[piece] = value;
+      const pieceName = settings.names[index];
 
       /* =========================
-           Update Total Only
-        ========================= */
+         POPUP
+      ========================= */
 
-      const tr = this.closest("tr");
+      const popup = document.getElementById("confirmPopup");
 
-      const totalTd = tr.querySelector(".total");
+      const popupText = document.getElementById("popupText");
 
-      totalTd.innerHTML = calculateTotal(student.lessons);
+      const confirmBtn = document.getElementById("confirmBtn");
+
+      const cancelBtn = document.getElementById("cancelBtn");
+
+      popup.style.display = "flex";
+
+      popupText.innerHTML = `
+        انت هتعدل درجة
+        <span style="color:#ffc107">
+          ${student.name}
+        </span>
+
+        <br><br>
+
+        في قطعة
+
+        <span style="color:#00ff88">
+          ${pieceName}
+        </span>
+
+        <br><br>
+
+        و هتحط درجة
+
+        <span style="color:#ff9800">
+          ${value}
+        </span>
+      `;
+
+      /* =========================
+         CANCEL
+      ========================= */
+
+      cancelBtn.onclick = function () {
+        popup.style.display = "none";
+      };
+
+      /* =========================
+         CONFIRM
+      ========================= */
+
+      confirmBtn.onclick = async function () {
+        popup.style.display = "none";
+
+        const ref = doc(db, "stages", stage, "students", id);
+
+        await updateDoc(ref, {
+          [`lessons.${piece}`]: value,
+        });
+      };
     };
   });
 }
-
 /* =========================
    Search Suggestions
 ========================= */
@@ -437,33 +459,11 @@ window.searchSuggestions = function () {
 
   suggestions.innerHTML = "";
 
-  /* =========================
-     EMPTY SEARCH
-  ========================= */
-
-  if (!value) {
-    renderStudents(allStudents);
-
-    return;
-  }
-
-  /* =========================
-     FILTER
-  ========================= */
+  if (!value) return;
 
   const filtered = allStudents.filter((student) =>
     student.name.toLowerCase().includes(value),
   );
-
-  /* =========================
-     RENDER TABLE
-  ========================= */
-
-  renderStudents(filtered);
-
-  /* =========================
-     SUGGESTIONS
-  ========================= */
 
   filtered.slice(0, 5).forEach((student) => {
     const div = document.createElement("div");
@@ -474,8 +474,6 @@ window.searchSuggestions = function () {
       document.getElementById("search").value = student.name;
 
       suggestions.innerHTML = "";
-
-      renderStudents([student]);
     };
 
     suggestions.appendChild(div);
