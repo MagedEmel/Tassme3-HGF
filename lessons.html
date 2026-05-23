@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Lessons Download</title>
+    <title>مسابقة الحفظ 2026 برج حصين</title>
+    <link rel="icon" href="imgs/cover.jpeg" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
 
@@ -14,6 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap"
       rel="stylesheet" />
 
+    <link href="https://fonts.cdnfonts.com/css/ostouri" rel="stylesheet" />
     <style>
       * {
         margin: 0;
@@ -22,12 +24,19 @@
       }
 
       body {
-        font-family: "Cairo", sans-serif;
+        font-family: "Ostouri", "Cairo", sans-serif;
         min-height: 100vh;
         overflow-x: hidden;
+
         background:
-          linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
-          url("imgs/Logo\ HQ.png") center/cover fixed;
+          linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)),
+          url("imgs/Logo HQ.png");
+
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+
         position: relative;
       }
 
@@ -35,7 +44,7 @@
         content: "";
         position: fixed;
         inset: 0;
-        backdrop-filter: blur(6px);
+        backdrop-filter: blur(2px);
         z-index: -1;
       }
 
@@ -50,20 +59,21 @@
       }
 
       .f1 {
-        background: #2563eb;
+        background: #d4af37;
+
         top: -50px;
         left: -50px;
       }
 
       .f2 {
-        background: #7c3aed;
+        background: #f5d76e;
         bottom: -50px;
         right: -50px;
         animation-delay: 2s;
       }
 
       .f3 {
-        background: #06b6d4;
+        background: #b8860b;
         top: 50%;
         left: 40%;
         animation-delay: 4s;
@@ -184,16 +194,26 @@
 
       .card:hover {
         transform: translateY(-15px) scale(1.03);
+
         box-shadow:
-          0 0 30px rgba(37, 99, 235, 0.4),
-          0 0 80px rgba(124, 58, 237, 0.2);
+          0 0 30px rgba(212, 175, 55, 0.5),
+          0 0 80px rgba(255, 215, 0, 0.2);
       }
 
       .card::before {
         content: "";
         position: absolute;
         inset: -2px;
-        background: linear-gradient(45deg, #2563eb, #7c3aed, #06b6d4, #2563eb);
+        .card::before {
+          background: linear-gradient(
+            45deg,
+            #d4af37,
+            #f5d76e,
+            #b8860b,
+            #fff3c4,
+            #d4af37
+          );
+        }
         z-index: -1;
         background-size: 300%;
         animation: borderMove 6s linear infinite;
@@ -226,6 +246,7 @@
         color: #d1d5db;
         margin-bottom: 25px;
         line-height: 1.7;
+        direction: rtl;
       }
 
       .btns {
@@ -262,11 +283,11 @@
       }
 
       .pdfBtn {
-        background: linear-gradient(45deg, #16a34a, #22c55e);
+        background: linear-gradient(45deg, #b8860b, #d4af37);
       }
 
       .imgBtn {
-        background: linear-gradient(45deg, #dc2626, #ef4444);
+        background: linear-gradient(45deg, #8b5e00, #f5d76e);
       }
 
       .btn:hover {
@@ -289,6 +310,60 @@
           font-size: 16px;
         }
       }
+      .hero {
+        padding: 60px 20px 40px;
+        text-align: center;
+      }
+
+      .topText {
+        color: #f8e7a1;
+        font-size: 20px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+
+        text-shadow:
+          0 0 10px rgba(255, 215, 0, 0.5),
+          0 0 25px rgba(255, 215, 0, 0.3);
+      }
+
+      .subText {
+        color: #fff3c4;
+        font-size: 22px;
+        margin-bottom: 25px;
+
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+      }
+
+      .mainTitle {
+        font-size: 45px;
+        font-weight: 800;
+        color: white;
+
+        margin-bottom: 20px;
+
+        text-shadow:
+          0 0 20px #d4af37,
+          0 0 40px #b8860b,
+          0 0 60px rgba(255, 215, 0, 0.5);
+
+        animation: titleGlow 2s infinite alternate;
+      }
+
+      .heroDesc {
+        color: #f3f4f6;
+        font-size: 16px;
+        letter-spacing: 1px;
+      }
+
+      @keyframes titleGlow {
+        from {
+          transform: scale(1);
+        }
+
+        to {
+          transform: scale(1.03);
+        }
+      }
     </style>
   </head>
 
@@ -298,15 +373,18 @@
     <div class="floating f3"></div>
 
     <section class="hero">
-      <h1>برج حصين</h1>
-      <h1>📚 مسابقة الحفظ 2026</h1>
+      <h2 class="topText">
+        خدمة التربية الكنسية<br />
+        مدارس أحد ابتدائي بنين<br />
+        بكنيسة ماريوحنا الحبيب بنجع حمادي
+      </h2>
 
-      <p>تحميل المسابقة PDF و صور</p>
+      <h3 class="subText">خدمة الأرشدياكون حبيب جرجس</h3>
+
+      <h1 class="mainTitle">🛡 مسابقة الحفظ برج حصين</h1>
     </section>
 
     <div class="container" id="container"></div>
-
-    <div class="footer">Made With ❤️</div>
 
     <script>
       const stages = [
@@ -333,7 +411,7 @@
               </div>
 
               <div class="desc">
-                اضغط لتحميل ملف الـ PDF أو جميع الصور الخاصة بالفرقة
+               أضغط لتحميل المسابقة كـ PDF او صور
               </div>
 
               <div class="btns">
@@ -379,7 +457,7 @@
           i++;
 
           // عدد الصور
-          if (i > 12) {
+          if (i >= 20) {
             clearInterval(interval);
           }
         }, 500);
