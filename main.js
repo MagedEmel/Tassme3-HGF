@@ -458,6 +458,8 @@ function attachEvents() {
    SAVE HISTORY
 ========================= */
 
+        const uid = localStorage.getItem("uid");
+
         await addDoc(collection(db, "history"), {
           stage: stage,
 
@@ -468,6 +470,8 @@ function attachEvents() {
           oldValue: oldValue,
 
           newValue: value,
+
+          uid: uid,
 
           time: Date.now(),
         });
@@ -639,7 +643,19 @@ document.getElementById("historyBtn").onclick = async function () {
 
   table.innerHTML = "";
 
-  data.forEach((item) => {
+  for (const item of data) {
+    let userName = "غير معروف";
+
+    if (item.uid) {
+      const userRef = doc(db, "users", item.uid);
+
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        userName = userSnap.data().name;
+      }
+    }
+
     const tr = document.createElement("tr");
 
     const date = new Date(item.time);
@@ -653,13 +669,15 @@ document.getElementById("historyBtn").onclick = async function () {
 
       <td>${item.newValue}</td>
 
+      <td>${userName}</td>
+
       <td>
         ${date.toLocaleString("ar-EG")}
       </td>
     `;
 
     table.appendChild(tr);
-  });
+  }
 };
 function renderHistoryHeader() {
   const theadRow = document.querySelector("thead tr");
@@ -669,6 +687,9 @@ function renderHistoryHeader() {
     <th>القطعة</th>
     <th>الدرجة القديمة</th>
     <th>الدرجة الجديدة</th>
+    <th>الخادم</th>
     <th>الوقت</th>
   `;
 }
+
+console.log(localStorage.getItem("uid"));
