@@ -1,174 +1,392 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>PDF Lessons</title>
+    <title>Lessons Download</title>
 
-<style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-body{
-    font-family:Arial;
-    background:#f3f4f6;
-    padding:40px;
-}
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet" />
 
-.container{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-}
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-.card{
-    background:white;
-    border-radius:15px;
-    padding:25px;
-    text-align:center;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
+      body {
+        font-family: "Cairo", sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)),
+          url("imgs/Logo\ HQ.png") center/cover fixed;
+        position: relative;
+      }
 
-.mainBtn{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:10px;
-    background:#2563eb;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
-}
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        backdrop-filter: blur(6px);
+        z-index: -1;
+      }
 
-.options{
-    margin-top:15px;
-    display:none;
-    flex-direction:column;
-    gap:10px;
-}
+      .floating {
+        position: fixed;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        filter: blur(80px);
+        z-index: -1;
+        animation: float 8s infinite alternate ease-in-out;
+      }
 
-.options button,
-.options a{
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    text-decoration:none;
-    color:white;
-    font-size:16px;
-}
+      .f1 {
+        background: #2563eb;
+        top: -50px;
+        left: -50px;
+      }
 
-.pdfBtn{
-    background:#16a34a;
-}
+      .f2 {
+        background: #7c3aed;
+        bottom: -50px;
+        right: -50px;
+        animation-delay: 2s;
+      }
 
-.imgBtn{
-    background:#dc2626;
-}
+      .f3 {
+        background: #06b6d4;
+        top: 50%;
+        left: 40%;
+        animation-delay: 4s;
+      }
 
-</style>
+      @keyframes float {
+        from {
+          transform: translateY(0) scale(1);
+        }
 
-<!-- PDF JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+        to {
+          transform: translateY(-50px) scale(1.2);
+        }
+      }
 
-<script>
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-</script>
-</head>
-<body>
+      .hero {
+        padding: 70px 20px 40px;
+        text-align: center;
+      }
 
-<div class="container">
+      .hero h1 {
+        color: white;
+        font-size: 60px;
+        font-weight: 800;
+        margin-bottom: 15px;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        animation: glow 2s infinite alternate;
+      }
 
-    <!-- Lesson 1 -->
-    <div class="card">
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 10px #fff;
+        }
 
-        <button class="mainBtn" onclick="toggleOptions(1)">
-            Lesson 1
-        </button>
+        to {
+          text-shadow:
+            0 0 20px #60a5fa,
+            0 0 40px #2563eb;
+        }
+      }
 
-        <div class="options" id="options1">
+      .hero p {
+        color: #d1d5db;
+        font-size: 20px;
+      }
 
-            <!-- تحميل PDF -->
-            <a class="pdfBtn"
-               href="pdfs/2.pdf"
-               download>
-               Download PDF
-            </a>
+      .container {
+        width: 90%;
+        max-width: 1400px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        padding-bottom: 70px;
+      }
 
-            <!-- تحميل الصور -->
-            <button class="imgBtn"
-                    onclick="downloadPdfAsImages('pdfs/2.pdf')">
-                Download Images
-            </button>
+      .card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        padding: 30px 25px;
+        transition: 0.5s;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+        animation: fadeUp 1s ease forwards;
+        opacity: 0;
+      }
 
-        </div>
+      .card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
 
-    </div>
+      .card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
 
-</div>
+      .card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
 
-<script>
+      .card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
 
-function toggleOptions(id){
+      .card:nth-child(5) {
+        animation-delay: 0.5s;
+      }
 
-    let options = document.getElementById("options" + id);
+      .card:nth-child(6) {
+        animation-delay: 0.6s;
+      }
 
-    if(options.style.display === "flex"){
-        options.style.display = "none";
-    }else{
-        options.style.display = "flex";
-    }
+      .card:nth-child(7) {
+        animation-delay: 0.7s;
+      }
 
-}
+      .card:nth-child(8) {
+        animation-delay: 0.8s;
+      }
 
-async function downloadPdfAsImages(pdfUrl){
+      .card:nth-child(9) {
+        animation-delay: 0.9s;
+      }
 
-    const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+      @keyframes fadeUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
 
-    for(let pageNum = 1; pageNum <= pdf.numPages; pageNum++){
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
 
-        const page = await pdf.getPage(pageNum);
+      .card:hover {
+        transform: translateY(-15px) scale(1.03);
+        box-shadow:
+          0 0 30px rgba(37, 99, 235, 0.4),
+          0 0 80px rgba(124, 58, 237, 0.2);
+      }
 
-        const viewport = page.getViewport({ scale: 2 });
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        background: linear-gradient(45deg, #2563eb, #7c3aed, #06b6d4, #2563eb);
+        z-index: -1;
+        background-size: 300%;
+        animation: borderMove 6s linear infinite;
+      }
 
-        const canvas = document.createElement("canvas");
+      @keyframes borderMove {
+        0% {
+          background-position: 0 0;
+        }
 
-        const context = canvas.getContext("2d");
+        100% {
+          background-position: 300% 0;
+        }
+      }
 
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+      .card-inner {
+        background: rgba(0, 0, 0, 0.55);
+        border-radius: 28px;
+        padding: 30px 20px;
+      }
 
-        await page.render({
-            canvasContext: context,
-            viewport: viewport
-        }).promise;
+      .stage {
+        color: white;
+        font-size: 35px;
+        font-weight: 800;
+        margin-bottom: 15px;
+      }
 
-        const image = canvas.toDataURL("image/png");
+      .desc {
+        color: #d1d5db;
+        margin-bottom: 25px;
+        line-height: 1.7;
+      }
 
-console.log(image);
-        const a = document.createElement("a");
+      .btns {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
 
-        a.href = image;
+      .btn {
+        padding: 15px;
+        border-radius: 15px;
+        text-decoration: none;
+        text-align: center;
+        color: white;
+        font-weight: 700;
+        transition: 0.4s;
+        position: relative;
+        overflow: hidden;
+      }
 
-        a.download = `page-${pageNum}.png`;
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        transition: 0.5s;
+      }
 
-        document.body.appendChild(a);
+      .btn:hover::before {
+        left: 100%;
+      }
 
-        a.click();
+      .pdfBtn {
+        background: linear-gradient(45deg, #16a34a, #22c55e);
+      }
 
-        document.body.removeChild(a);
+      .imgBtn {
+        background: linear-gradient(45deg, #dc2626, #ef4444);
+      }
 
-    }
+      .btn:hover {
+        transform: scale(1.05);
+      }
 
-}
+      .footer {
+        text-align: center;
+        color: #d1d5db;
+        padding: 30px;
+        font-size: 18px;
+      }
 
-</script>
+      @media (max-width: 700px) {
+        .hero h1 {
+          font-size: 40px;
+        }
 
-</body>
+        .hero p {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="floating f1"></div>
+    <div class="floating f2"></div>
+    <div class="floating f3"></div>
+
+    <section class="hero">
+      <h1>برج حصين</h1>
+      <h1>📚 مسابقة الحفظ 2026</h1>
+
+      <p>تحميل المسابقة PDF و صور</p>
+    </section>
+
+    <div class="container" id="container"></div>
+
+    <div class="footer">Made With ❤️</div>
+
+    <script>
+      const stages = [
+        "BC",
+        "KG1",
+        "KG2",
+        "اولي ابتدائي",
+        "تانية ابتدائي",
+        "تالتة ابتدائي",
+        "رابعة ابتدائي",
+        "خامسة ابتدائي",
+        "ساتة ابتدائي",
+      ];
+
+      const container = document.getElementById("container");
+
+      stages.forEach((stage) => {
+        container.innerHTML += `
+          <div class="card">
+            <div class="card-inner">
+
+              <div class="stage">
+                ${stage}
+              </div>
+
+              <div class="desc">
+                اضغط لتحميل ملف الـ PDF أو جميع الصور الخاصة بالفرقة
+              </div>
+
+              <div class="btns">
+
+                <a
+                  class="btn pdfBtn"
+                  href="pdfs/${stage}/${stage}.pdf"
+                  download
+                >
+                  📄 Download PDF
+                </a>
+
+                <a
+                  class="btn imgBtn"
+                  onclick="downloadImages('${stage}')"
+                >
+                  🖼 Download Images
+                </a>
+
+              </div>
+
+            </div>
+          </div>
+        `;
+      });
+
+      function downloadImages(stage) {
+        let i = 1;
+
+        const interval = setInterval(() => {
+          const link = document.createElement("a");
+
+          link.href = `pdfs/${stage}/${stage}-${i}.png`;
+
+          link.download = `${stage}-${i}.png`;
+
+          document.body.appendChild(link);
+
+          link.click();
+
+          document.body.removeChild(link);
+
+          i++;
+
+          // عدد الصور
+          if (i > 12) {
+            clearInterval(interval);
+          }
+        }, 500);
+      }
+    </script>
+  </body>
 </html>
+``` ## مهم حط صورة الخلفية هنا: ```text imgs/bg.jpg ``` وغير اسمها لو عايز. ##
+Structure ```text pdfs BC BC.pdf BC1.png BC2.png KG1 KG1.pdf KG11.png KG12.png
+``` وهكذا لباقي الفرق.
