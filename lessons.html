@@ -292,6 +292,7 @@
 
       .btn:hover {
         transform: scale(1.05);
+        cursor: pointer;
       }
 
       .footer {
@@ -381,72 +382,136 @@
 
       <h3 class="subText">خدمة الأرشدياكون حبيب جرجس</h3>
 
-      <h1 class="mainTitle">🛡 مسابقة الحفظ برج حصين</h1>
+      <h1 class="mainTitle">مسابقة الحفظ برج حصين</h1>
     </section>
 
     <div class="container" id="container"></div>
 
     <script>
       const stages = [
-        "BC",
-        "KG1",
-        "KG2",
-        "اولي ابتدائي",
-        "تانية ابتدائي",
-        "تالتة ابتدائي",
-        "رابعة ابتدائي",
-        "خامسة ابتدائي",
-        "ساتة ابتدائي",
-      ];
+        {
+          name: "BC",
+          folder: "BC",
+          pdf: "bc.pdf",
+          imageName: "BC",
+          images: 8,
+        },
 
+        {
+          name: "KG1",
+          folder: "KG1",
+          pdf: "kg1.pdf",
+          imageName: "KG1",
+          images: 8,
+        },
+
+        {
+          name: "KG2",
+          folder: "KG2",
+          pdf: "KG2.pdf",
+          imageName: "KG2",
+          images: 8,
+        },
+
+        {
+          name: "اولي ابتدائي",
+          folder: "1",
+          pdf: "اولي ابتدائي.pdf",
+          imageName: "اولي ابتدائي",
+          images: 12,
+        },
+
+        {
+          name: "تانية ابتدائي",
+          folder: "2",
+          pdf: "تانية ابتدائي.pdf",
+          imageName: "تانية ابتدائي",
+          images: 12,
+        },
+
+        {
+          name: "تالتة ابتدائي",
+          folder: "3",
+          pdf: "تالتة ابتدائي.pdf",
+          imageName: "تالتة ابتدائي",
+          images: 16,
+        },
+
+        {
+          name: "رابعة ابتدائي",
+          folder: "4",
+          pdf: "رابعة ابتدائي.pdf",
+          imageName: "رابعة ابتدائي",
+          images: 20,
+        },
+
+        {
+          name: "خامسة ابتدائي",
+          folder: "5",
+          pdf: "خامسة ابتدائي.pdf",
+          imageName: "خامسة ابتدائي",
+          images: 20,
+        },
+
+        {
+          name: "ساتة ابتدائي",
+          folder: "6",
+          pdf: "ساتة ابتدائي.pdf",
+          imageName: "ساتة ابتدائي",
+          images: 20,
+        },
+      ];
       const container = document.getElementById("container");
 
       stages.forEach((stage) => {
         container.innerHTML += `
-          <div class="card">
-            <div class="card-inner">
+    <div class="card">
+      <div class="card-inner">
 
-              <div class="stage">
-                ${stage}
-              </div>
+        <div class="stage">
+          ${stage.name}
+        </div>
 
-              <div class="desc">
-               أضغط لتحميل المسابقة كـ PDF او صور
-              </div>
+        <div class="desc">
+          أضغط لتحميل المسابقة كـ PDF او صور
+        </div>
 
-              <div class="btns">
+        <div class="btns">
 
-                <a
-                  class="btn pdfBtn"
-                  href="pdfs/${stage}/${stage}.pdf"
-                  download
-                >
-                  📄 Download PDF
-                </a>
+          <a
+            class="btn pdfBtn"
+            href="pdfs/${stage.folder}/${stage.pdf}"
+            download
+          >
+            📄 Download PDF
+          </a>
 
-                <a
-                  class="btn imgBtn"
-                  onclick="downloadImages('${stage}')"
-                >
-                  🖼 Download Images
-                </a>
+          <a
+            class="btn imgBtn"
+            onclick="downloadImages(
+              '${stage.folder}',
+              '${stage.imageName}',
+              ${stage.images}
+            )"
+          >
+            🖼 Download Images
+          </a>
 
-              </div>
+        </div>
 
-            </div>
-          </div>
-        `;
+      </div>
+    </div>
+  `;
       });
-
-      function downloadImages(stage) {
+      function downloadImages(folder, imageName, totalImages) {
         let i = 1;
 
         const interval = setInterval(() => {
           const link = document.createElement("a");
 
-          link.href = `pdfs/${stage}/${stage}-${i}.png`;
+          link.href = `pdfs/${folder}/${imageName}-${i}.png`;
 
-          link.download = `${stage}-${i}.png`;
+          link.download = `${imageName}-${i}.png`;
 
           document.body.appendChild(link);
 
@@ -456,11 +521,10 @@
 
           i++;
 
-          // عدد الصور
-          if (i >= 20) {
+          if (i > totalImages) {
             clearInterval(interval);
           }
-        }, 500);
+        }, 1500);
       }
     </script>
   </body>
