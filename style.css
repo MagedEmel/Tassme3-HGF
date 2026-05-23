@@ -7,13 +7,17 @@
 
 body {
   background:
-    linear-gradient(rgba(0, 0, 0, 0.514), rgba(0, 0, 0, 0.65)),
+    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)),
     url("imgs/logo.png");
 
   background-size: cover;
+
   background-position: center;
-  background-attachment: fixed;
+
   background-repeat: no-repeat;
+
+  background-attachment: fixed;
+
 
   min-height: 100vh;
 
@@ -569,7 +573,7 @@ table tr:nth-child(even) {
 
     font-size: 18px;
   }
-  table td.total{
+  table td.total {
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
@@ -618,18 +622,16 @@ table tr:nth-child(even) {
   box-shadow: 0 10px 20px rgba(255, 193, 7, 0.35);
 }
 
-
 /* =========================
    Popup
 ========================= */
 
 .popup-overlay {
-
   position: fixed;
 
   inset: 0;
 
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
 
   backdrop-filter: blur(6px);
 
@@ -643,13 +645,12 @@ table tr:nth-child(even) {
 }
 
 .popup-box {
-
   width: 90%;
   max-width: 420px;
 
-  background: rgba(20,20,20,0.95);
+  background: rgba(20, 20, 20, 0.95);
 
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
   border-radius: 24px;
 
@@ -659,13 +660,12 @@ table tr:nth-child(even) {
 
   color: white;
 
-  animation: popupShow .25s ease;
+  animation: popupShow 0.25s ease;
 
-  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
 }
 
 .popup-box h2 {
-
   color: #ffc107;
 
   margin-bottom: 20px;
@@ -674,7 +674,6 @@ table tr:nth-child(even) {
 }
 
 .popup-box p {
-
   line-height: 1.8;
 
   font-size: 18px;
@@ -683,7 +682,6 @@ table tr:nth-child(even) {
 }
 
 .popup-buttons {
-
   display: flex;
 
   gap: 15px;
@@ -692,7 +690,6 @@ table tr:nth-child(even) {
 }
 
 .popup-buttons button {
-
   border: none;
 
   padding: 12px 22px;
@@ -705,37 +702,33 @@ table tr:nth-child(even) {
 
   font-weight: bold;
 
-  transition: .3s;
+  transition: 0.3s;
 }
 
 #confirmBtn {
-
-  background: linear-gradient(45deg,#ff9800,#ffc107);
+  background: linear-gradient(45deg, #ff9800, #ffc107);
 
   color: white;
 }
 
 #cancelBtn {
-
   background: #444;
 
   color: white;
 }
 
 .popup-buttons button:hover {
-
   transform: translateY(-2px);
 }
 
 @keyframes popupShow {
-
-  from{
-    opacity:0;
-    transform: scale(.8);
+  from {
+    opacity: 0;
+    transform: scale(0.8);
   }
 
-  to{
-    opacity:1;
+  to {
+    opacity: 1;
     transform: scale(1);
   }
 }

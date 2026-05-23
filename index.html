@@ -23,12 +23,19 @@
         align-items: center;
 
         background:
-          linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+          linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)),
           url("imgs/logo.png");
 
         background-size: cover;
+
         background-position: center;
-        overflow: hidden;
+
+        background-repeat: no-repeat;
+
+        background-attachment: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       /* =========================
@@ -265,8 +272,7 @@
         <input
           type="password"
           id="password"
-          placeholder="Enter Your Password"
-        />
+          placeholder="Enter Your Password" />
       </div>
 
       <button type="button" onclick="login()">Login</button>
@@ -357,7 +363,7 @@
           /* =========================
        Redirect
     ========================= */
-          if(data.role == "admin") window.location.href = "stage.html";
+          if (data.role == "admin") window.location.href = "stage.html";
           else window.location.href = "app.html";
         } catch (error) {
           console.log(error);
