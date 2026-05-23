@@ -19,6 +19,8 @@ import {
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+import * as XLSX from "https://cdn.sheetjs.com/xlsx-latest/package/xlsx.mjs";
+
 /* =========================
    Firebase
 ========================= */
@@ -35,7 +37,52 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+/*
+document.getElementById("excelInput").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
 
+  const buffer = await file.arrayBuffer();
+  const workbook = XLSX.read(buffer);
+
+  const sheetName = workbook.SheetNames[0];
+  const sheet = workbook.Sheets[sheetName];
+
+  const data = XLSX.utils.sheet_to_json(sheet);
+
+  for (const row of data) {
+    const name = (row["الاسم"] || "").trim();
+
+    if (!name) continue;
+
+    // (اختياري) منع التكرار
+    const snap = await getDocs(collection(db, "stages", stage, "students"));
+
+    let exists = false;
+
+    snap.forEach((d) => {
+      if (d.data().name.trim() === name) {
+        exists = true;
+      }
+    });
+
+    if (exists) continue;
+
+    // إنشاء student جديد بدون درجات
+    const lessons = {};
+
+    for (let i = 1; i <= settings.pieces; i++) {
+      lessons[`piece${i}`] = 0;
+    }
+
+    await addDoc(collection(db, "stages", stage, "students"), {
+      name,
+      lessons,
+    });
+  }
+
+  alert("تم إضافة الأسماء بنجاح ✅");
+});
+*/
 /* =========================
    Stage
 ========================= */
@@ -363,7 +410,7 @@ function getStudents() {
 
 function attachEvents() {
   document.querySelectorAll("input[type='number']").forEach((input) => {
-    input.onblur  = function () {
+    input.onblur = function () {
       const id = this.dataset.id;
 
       const piece = this.dataset.piece;
