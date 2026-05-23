@@ -88,9 +88,6 @@ const table = document.querySelector("tbody.data");
 
 let allStudents = [];
 let currentStudent = "";
-/* =========================
-   SHOW ALL BUTTON
-========================= */
 
 /* =========================
    Settings
