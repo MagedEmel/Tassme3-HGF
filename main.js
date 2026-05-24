@@ -11,6 +11,7 @@ import {
   addDoc,
   getDoc,
   onSnapshot,
+  deleteDoc,
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 import {
@@ -110,6 +111,26 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+/* =========================
+   DELETE OLD HISTORY
+========================= */
+
+async function deleteOldHistory() {
+  const now = Date.now();
+
+  const last24 = now - 24 * 60 * 60 * 1000;
+
+  const snap = await getDocs(collection(db, "history"));
+
+  for (const historyDoc of snap.docs) {
+    const data = historyDoc.data();
+
+    if (data.time < last24) {
+      await deleteDoc(doc(db, "history", historyDoc.id));
+    }
+  }
+}
+deleteOldHistory();
 /* =========================
    Stage
 ========================= */
@@ -487,6 +508,8 @@ function attachEvents() {
 
         const uid = localStorage.getItem("uid");
 
+        const userName = localStorage.getItem("userName");
+
         await addDoc(collection(db, "history"), {
           stage: stage,
 
@@ -499,6 +522,10 @@ function attachEvents() {
           newValue: value,
 
           uid: uid,
+
+          userName: userName,
+
+          newValue: value,
 
           time: Date.now(),
         });
@@ -671,17 +698,7 @@ document.getElementById("historyBtn").onclick = async function () {
   table.innerHTML = "";
 
   for (const item of data) {
-    let userName = "غير معروف";
-
-    if (item.uid) {
-      const userRef = doc(db, "users", item.uid);
-
-      const userSnap = await getDoc(userRef);
-
-      if (userSnap.exists()) {
-        userName = userSnap.data().name;
-      }
-    }
+    const userName = item.userName || "غير معروف";
 
     const tr = document.createElement("tr");
 
