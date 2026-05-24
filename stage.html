@@ -60,7 +60,7 @@
         margin-top: 10px;
       }
       #backword {
-        color:#3f3f3f
+        color: #3f3f3f;
       }
       #backword::after {
         content: "LOGOUT";
@@ -489,8 +489,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
       integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+      referrerpolicy="no-referrer" />
 
     <link rel="icon" href="imgs/logo.png" />
     <title>Stage HGF</title>
@@ -522,7 +521,7 @@
 
           <button onclick="openMenu('خامسة ابتدائي')">خامسة ابتدائي</button>
 
-          <button onclick="openMenu('ساتة ابتدائي')">ساتة ابتدائي</button>
+          <button onclick="openMenu('سادسة ابتدائي')">سادسة ابتدائي</button>
         </div>
       </div>
     </section>
@@ -553,6 +552,7 @@
         getFirestore,
         collection,
         getDocs,
+        getDoc,
         addDoc,
         updateDoc,
         query,
@@ -592,7 +592,7 @@
       /* =========================
      AUTH CHECK
   ========================= */
-
+      
       const auth = getAuth(app);
 
       document.body.style.display = "none";
