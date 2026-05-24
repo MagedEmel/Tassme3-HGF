@@ -59,7 +59,12 @@
 
         margin-top: 10px;
       }
-
+      #backword {
+        color:#3f3f3f
+      }
+      #backword::after {
+        content: "LOGOUT";
+      }
       button:hover {
         transform: translateY(-3px);
 
@@ -103,7 +108,7 @@
       body {
         height: 100vh;
         overflow: hidden;
-        display: flex;
+        display: none;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -479,10 +484,21 @@
         text-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
       }
     </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
     <link rel="icon" href="imgs/logo.png" />
     <title>Stage HGF</title>
   </head>
   <body>
+    <button id="backword">
+      <i class="fa-solid fa-backward"></i>
+    </button>
     <div class="title-box">
       <h1 class="main-title">برج حصين</h1>
       <p class="sub-title">مسابقة الحقظ 2026</p>
@@ -531,7 +547,7 @@
     </div>
 
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
       import {
         getFirestore,
@@ -541,7 +557,14 @@
         updateDoc,
         query,
         where,
-      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        doc,
+        onSnapshot,
+      } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyBwX2D5tvQNIhekxDAR3qZsyGfiEWZ8sgo",
@@ -560,19 +583,34 @@
       window.db = db;
 
       window.collection = collection;
-
       window.getDocs = getDocs;
-
       window.addDoc = addDoc;
-
       window.updateDoc = updateDoc;
-
       window.query = query;
-
       window.where = where;
+
+      /* =========================
+     AUTH CHECK
+  ========================= */
+
+      const auth = getAuth(app);
+
+      document.body.style.display = "none";
+
+      onAuthStateChanged(auth, (user) => {
+        if (!user) {
+          window.location.href = "index.html";
+        } else {
+          document.body.style.display = "flex";
+        }
+      });
     </script>
 
     <script>
+      let backWord = document.getElementById("backword");
+      backWord.onclick = function () {
+        window.location.href = "index.html";
+      };
       let selectedStage = "";
 
       function openMenu(stage) {

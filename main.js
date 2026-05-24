@@ -99,6 +99,17 @@ document.getElementById("excelInput").addEventListener("change", async (e) => {
   }
 });
 */
+
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "index.html";
+  } else {
+    document.body.style.display = "block";
+  }
+});
+
 /* =========================
    Stage
 ========================= */
@@ -113,8 +124,24 @@ if (!stage) {
 let grade = document.getElementById("grade");
 grade.innerHTML = localStorage.getItem("stage");
 let backword = document.getElementById("backword");
-backword.onclick = () => {
-  window.location = "index.html";
+backword.onclick = async () => {
+  const uid = localStorage.getItem("uid");
+
+  const userRef = doc(db, "users", uid);
+
+  const userSnap = await getDoc(userRef);
+
+  if (userSnap.exists()) {
+    const userData = userSnap.data();
+
+    if (userData.role === "admin") window.location.href = "stage.html";
+    else {
+      window.location.href = "index.html";
+      localStorage.removeItem("uid");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("stage");
+    }
+  }
 };
 
 let messges = [
@@ -661,20 +688,30 @@ document.getElementById("historyBtn").onclick = async function () {
     const date = new Date(item.time);
 
     tr.innerHTML = `
-      <td>${item.studentName}</td>
+  <td class="name">
+    ${item.studentName}
+  </td>
 
-      <td>${item.piece}</td>
+  <td data-label="القطعة">
+    ${item.piece}
+  </td>
 
-      <td>${item.oldValue}</td>
+  <td data-label="الدرجة القديمة">
+    ${item.oldValue}
+  </td>
 
-      <td>${item.newValue}</td>
+  <td data-label="الدرجة الجديدة">
+    ${item.newValue}
+  </td>
 
-      <td>${userName}</td>
+  <td data-label="الخادم">
+    ${userName}
+  </td>
 
-      <td>
-        ${date.toLocaleString("ar-EG")}
-      </td>
-    `;
+  <td data-label="الوقت">
+    ${date.toLocaleString("ar-EG")}
+  </td>
+`;
 
     table.appendChild(tr);
   }
@@ -683,7 +720,7 @@ function renderHistoryHeader() {
   const theadRow = document.querySelector("thead tr");
 
   theadRow.innerHTML = `
-    <th>الطفل</th>
+    <th id="name">الطفل</th>
     <th>القطعة</th>
     <th>الدرجة القديمة</th>
     <th>الدرجة الجديدة</th>
