@@ -23,7 +23,10 @@ body {
 
   color: white;
 }
-
+.x{
+  display: flex;
+  gap: 30px;
+}
 /* =========================
    Container
 ========================= */
@@ -42,7 +45,6 @@ header {
   min-height: 80px;
   background: linear-gradient(135deg, #ffc10760, #47390c46);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  position: sticky;
   top: 0;
   z-index: 1000;
 }
@@ -80,9 +82,11 @@ h3#messge {
   font-size: 22px;
   cursor: pointer;
   transition: 0.3s;
+  border: none;
 }
 
 #backword:hover {
+  border: 2px solid #d89b00;
   transform: scale(1.08);
 }
 
@@ -115,6 +119,9 @@ h3#messge {
   font-weight: bold;
   min-width: 70px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* =========================

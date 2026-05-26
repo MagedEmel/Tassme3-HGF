@@ -876,6 +876,28 @@ async function loadHistory(direction = "next") {
   renderHistoryPagination(snap.docs.length);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* =========================
    RENDER HISTORY
 ========================= */
@@ -991,4 +1013,4 @@ function renderHistoryHeader() {
   `;
 }
 
-console.log(localStorage.getItem("uid"));
+
