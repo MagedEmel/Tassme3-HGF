@@ -192,6 +192,7 @@ const dayIndex =
 
 messge.innerHTML = messges[dayIndex];
 
+let isUpdating = false;
 /* =========================
    DOM
 ========================= */
@@ -250,6 +251,13 @@ async function loadSettings() {
   }
 }
 
+function toggleInputs(disabled = true) {
+  document.querySelectorAll("input[type='number']").forEach((input) => {
+    input.disabled = disabled;
+
+    input.style.opacity = disabled ? "0.5" : "1";
+  });
+}
 /* =========================
    Render Header
 ========================= */
@@ -523,38 +531,24 @@ function attachEvents() {
       ========================= */
 
       confirmBtn.onclick = async function () {
+        if (isUpdating) {
+          return;
+        }
+
+        isUpdating = true;
+
+        toggleInputs(true);
+
         try {
           popup.style.display = "none";
-
-          input.disabled = true;
-
-          input.style.opacity = "0.5";
-
-          /* =========================
-             GET LATEST DATA
-          ========================= */
 
           const studentRef = doc(db, "stages", stage, "students", id);
 
           const studentSnap = await getDoc(studentRef);
 
-          if (!studentSnap.exists()) {
-            alert("الطالب غير موجود");
-
-            input.disabled = false;
-
-            input.style.opacity = "1";
-
-            return;
-          }
-
           const latestStudent = studentSnap.data();
 
           const latestValue = latestStudent.lessons?.[piece] || 0;
-
-          /* =========================
-             CHECK CONFLICT
-          ========================= */
 
           if (latestValue !== oldValue) {
             alert(
@@ -563,24 +557,12 @@ function attachEvents() {
 
             input.value = latestValue;
 
-            input.disabled = false;
-
-            input.style.opacity = "1";
-
             return;
           }
-
-          /* =========================
-             UPDATE
-          ========================= */
 
           await updateDoc(studentRef, {
             [`lessons.${piece}`]: value,
           });
-
-          /* =========================
-             SAVE HISTORY
-          ========================= */
 
           const uid = localStorage.getItem("uid");
 
@@ -603,18 +585,14 @@ function attachEvents() {
 
             time: Date.now(),
           });
-
-          console.log("UPDATED SUCCESS");
         } catch (error) {
           console.log(error);
 
-          alert("حصل خطأ أثناء الحفظ");
-
-          input.value = oldValue;
+          alert("حصل خطأ");
         } finally {
-          input.disabled = false;
+          isUpdating = false;
 
-          input.style.opacity = "1";
+          toggleInputs(false);
         }
       };
     };
