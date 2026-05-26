@@ -118,18 +118,19 @@ onAuthStateChanged(auth, (user) => {
 async function deleteOldHistory() {
   const now = Date.now();
 
-  const last24 = now - 24 * 60 * 60 * 1000;
+  const lastWeek = now - 7 * 24 * 60 * 60 * 1000;
 
   const snap = await getDocs(collection(db, "history"));
 
   for (const historyDoc of snap.docs) {
     const data = historyDoc.data();
 
-    if (data.time < last24) {
+    if (data.time < lastWeek) {
       await deleteDoc(doc(db, "history", historyDoc.id));
     }
   }
 }
+
 deleteOldHistory();
 /* =========================
    Stage
@@ -223,12 +224,18 @@ searchBtn.onclick = function () {
     table.innerHTML = "";
     return;
   }
+
   currentStudent = value;
+
   const filtered = allStudents.filter((student) => {
     const studentName = student.name.trim().toLowerCase().replace(/\s+/g, " ");
 
     return studentName === value;
   });
+
+  const pagination = document.getElementById("pagination");
+
+  pagination.style.display = "none";
 
   renderStudents(filtered);
 };
@@ -674,27 +681,148 @@ window.backupExcel = async function () {
   }
 };
 
+/* =========================
+   HISTORY PAGINATION
+========================= */
+
+import {
+  query,
+  orderBy,
+  limit,
+  startAfter,
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+let historyPages = [];
+
+let currentHistoryPage = 0;
+
+const historyLimit = 10;
+
+/* =========================
+   DELETE OLD HISTORY
+========================= */
+
+/* =========================
+   HISTORY BUTTON
+========================= */
+
 document.getElementById("historyBtn").onclick = async function () {
+  historyPages = [];
+
+  currentHistoryPage = 0;
+
+  await loadHistory();
+};
+
+/* =========================
+   LOAD HISTORY
+========================= */
+
+async function loadHistory(direction = "next") {
   renderHistoryHeader();
+
+  table.innerHTML = "";
+
+  const pagination = document.getElementById("pagination");
+  pagination.style.display = "flex";
+  pagination.innerHTML = "";
 
   const now = Date.now();
 
-  const last24 = now - 24 * 60 * 60 * 1000;
+  const lastWeek = now - 7 * 24 * 60 * 60 * 1000;
 
-  const snap = await getDocs(collection(db, "history"));
+  let q;
+
+  /* =========================
+     FIRST PAGE
+  ========================= */
+
+  if (historyPages.length === 0) {
+    q = query(
+      collection(db, "history"),
+
+      orderBy("time", "desc"),
+
+      limit(historyLimit),
+    );
+  } else if (direction === "next") {
+    /* =========================
+     NEXT PAGE
+  ========================= */
+    q = query(
+      collection(db, "history"),
+
+      orderBy("time", "desc"),
+
+      startAfter(historyPages[historyPages.length - 1]),
+
+      limit(historyLimit),
+    );
+  } else {
+    /* =========================
+     PREVIOUS PAGE
+  ========================= */
+    const prevIndex = currentHistoryPage - 1;
+
+    if (prevIndex < 0) return;
+
+    currentHistoryPage = prevIndex;
+
+    const prevDoc = prevIndex === 0 ? null : historyPages[prevIndex - 1];
+
+    if (prevDoc) {
+      q = query(
+        collection(db, "history"),
+
+        orderBy("time", "desc"),
+
+        startAfter(prevDoc),
+
+        limit(historyLimit),
+      );
+    } else {
+      q = query(
+        collection(db, "history"),
+
+        orderBy("time", "desc"),
+
+        limit(historyLimit),
+      );
+    }
+  }
+
+  const snap = await getDocs(q);
 
   let data = [];
 
   snap.forEach((docu) => {
     const d = docu.data();
 
-    if (d.time >= last24 && d.stage === stage) {
+    if (d.time >= lastWeek && d.stage === stage) {
       data.push(d);
     }
   });
 
-  data.sort((a, b) => b.time - a.time);
+  /* =========================
+     SAVE LAST DOC
+  ========================= */
 
+  if (snap.docs.length > 0 && direction !== "prev") {
+    historyPages.push(snap.docs[snap.docs.length - 1]);
+
+    currentHistoryPage = historyPages.length - 1;
+  }
+
+  renderHistory(data);
+
+  renderHistoryPagination(snap.docs.length);
+}
+
+/* =========================
+   RENDER HISTORY
+========================= */
+
+function renderHistory(data) {
   table.innerHTML = "";
 
   for (const item of data) {
@@ -705,34 +833,93 @@ document.getElementById("historyBtn").onclick = async function () {
     const date = new Date(item.time);
 
     tr.innerHTML = `
-  <td class="name">
-    ${item.studentName}
-  </td>
+      <td class="name">
+        ${item.studentName}
+      </td>
 
-  <td data-label="القطعة">
-    ${item.piece}
-  </td>
+      <td data-label="القطعة">
+        ${item.piece}
+      </td>
 
-  <td data-label="الدرجة القديمة">
-    ${item.oldValue}
-  </td>
+      <td data-label="الدرجة القديمة">
+        ${item.oldValue}
+      </td>
 
-  <td data-label="الدرجة الجديدة">
-    ${item.newValue}
-  </td>
+      <td data-label="الدرجة الجديدة">
+        ${item.newValue}
+      </td>
 
-  <td data-label="الخادم">
-    ${userName}
-  </td>
+      <td data-label="الخادم">
+        ${userName}
+      </td>
 
-  <td data-label="الوقت">
-    ${date.toLocaleString("ar-EG")}
-  </td>
-`;
+      <td data-label="الوقت">
+        ${date.toLocaleString("ar-EG")}
+      </td>
+    `;
 
     table.appendChild(tr);
   }
-};
+}
+
+/* =========================
+   PAGINATION
+========================= */
+
+function renderHistoryPagination(count) {
+  const pagination = document.getElementById("pagination");
+
+  pagination.innerHTML = "";
+
+  /* =========================
+     PREVIOUS
+  ========================= */
+
+  const prevBtn = document.createElement("button");
+
+  prevBtn.innerHTML = "السابق";
+
+  prevBtn.disabled = currentHistoryPage === 0;
+
+  prevBtn.onclick = async () => {
+    await loadHistory("prev");
+  };
+
+  pagination.appendChild(prevBtn);
+
+  /* =========================
+     PAGE NUMBER
+  ========================= */
+
+  const pageBtn = document.createElement("button");
+
+  pageBtn.innerHTML = currentHistoryPage + 1;
+
+  pageBtn.classList.add("active");
+
+  pagination.appendChild(pageBtn);
+
+  /* =========================
+     NEXT
+  ========================= */
+
+  const nextBtn = document.createElement("button");
+
+  nextBtn.innerHTML = "التالي";
+
+  nextBtn.disabled = count < historyLimit;
+
+  nextBtn.onclick = async () => {
+    await loadHistory("next");
+  };
+
+  pagination.appendChild(nextBtn);
+}
+
+/* =========================
+   HEADER
+========================= */
+
 function renderHistoryHeader() {
   const theadRow = document.querySelector("thead tr");
 

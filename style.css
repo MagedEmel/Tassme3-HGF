@@ -19,7 +19,6 @@ body {
 
   background-attachment: fixed;
 
-
   min-height: 100vh;
 
   color: white;
@@ -762,3 +761,69 @@ table tr:nth-child(even) {
 
   box-shadow: 0 10px 20px rgba(0, 200, 83, 0.35);
 }
+
+/* =========================
+   PAGINATION
+========================= */
+
+#pagination {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 25px;
+
+  flex-wrap: wrap;
+}
+
+#pagination button {
+  min-width: 45px;
+
+  height: 45px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #d89b0034;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+#pagination button:hover {
+  background: #333;
+
+  transform: translateY(-2px);
+}
+
+#pagination button.active {
+  background: #d89b00;
+
+  color: white;
+}
+
+#pagination button:disabled {
+  opacity: 0.4;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+#pagination button:not(:disabled):active {
+  transform: scale(0.95);
+}
+
+
