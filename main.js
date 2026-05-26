@@ -428,7 +428,7 @@ function getStudents() {
 
 function attachEvents() {
   document.querySelectorAll("input[type='number']").forEach((input) => {
-    input.onblur = function () {
+    input.onblur = async function () {
       const id = this.dataset.id;
 
       const piece = this.dataset.piece;
@@ -445,9 +445,25 @@ function attachEvents() {
 
       this.value = value;
 
+      /* =========================
+         GET STUDENT
+      ========================= */
+
       const student = allStudents.find((s) => s.id === id);
 
+      if (!student) return;
+
       const pieceName = settings.names[index];
+
+      const oldValue = student.lessons?.[piece] || 0;
+
+      /* =========================
+         لو مفيش تغيير
+      ========================= */
+
+      if (oldValue === value) {
+        return;
+      }
 
       /* =========================
          POPUP
@@ -479,9 +495,15 @@ function attachEvents() {
 
         <br><br>
 
-        و هتحط درجة
+        من
 
-        <span style="color:#ff9800">
+        <span style="color:#ff4d4d">
+          ${oldValue}
+        </span>
+
+        الى
+
+        <span style="color:#00ff88">
           ${value}
         </span>
       `;
@@ -492,6 +514,8 @@ function attachEvents() {
 
       cancelBtn.onclick = function () {
         popup.style.display = "none";
+
+        input.value = oldValue;
       };
 
       /* =========================
@@ -499,43 +523,99 @@ function attachEvents() {
       ========================= */
 
       confirmBtn.onclick = async function () {
-        popup.style.display = "none";
+        try {
+          popup.style.display = "none";
 
-        const ref = doc(db, "stages", stage, "students", id);
+          input.disabled = true;
 
-        const oldValue = student.lessons?.[piece] || 0;
+          input.style.opacity = "0.5";
 
-        await updateDoc(ref, {
-          [`lessons.${piece}`]: value,
-        });
+          /* =========================
+             GET LATEST DATA
+          ========================= */
 
-        /* =========================
-   SAVE HISTORY
-========================= */
+          const studentRef = doc(db, "stages", stage, "students", id);
 
-        const uid = localStorage.getItem("uid");
+          const studentSnap = await getDoc(studentRef);
 
-        const userName = localStorage.getItem("userName");
+          if (!studentSnap.exists()) {
+            alert("الطالب غير موجود");
 
-        await addDoc(collection(db, "history"), {
-          stage: stage,
+            input.disabled = false;
 
-          studentName: student.name,
+            input.style.opacity = "1";
 
-          piece: pieceName,
+            return;
+          }
 
-          oldValue: oldValue,
+          const latestStudent = studentSnap.data();
 
-          newValue: value,
+          const latestValue = latestStudent.lessons?.[piece] || 0;
 
-          uid: uid,
+          /* =========================
+             CHECK CONFLICT
+          ========================= */
 
-          userName: userName,
+          if (latestValue !== oldValue) {
+            alert(
+              `الدرجة اتغيرت من جهاز تاني\n\nالقيمة الحالية هي ${latestValue}`,
+            );
 
-          newValue: value,
+            input.value = latestValue;
 
-          time: Date.now(),
-        });
+            input.disabled = false;
+
+            input.style.opacity = "1";
+
+            return;
+          }
+
+          /* =========================
+             UPDATE
+          ========================= */
+
+          await updateDoc(studentRef, {
+            [`lessons.${piece}`]: value,
+          });
+
+          /* =========================
+             SAVE HISTORY
+          ========================= */
+
+          const uid = localStorage.getItem("uid");
+
+          const userName = localStorage.getItem("userName") || "غير معروف";
+
+          await addDoc(collection(db, "history"), {
+            stage: stage,
+
+            studentName: student.name,
+
+            piece: pieceName,
+
+            oldValue: oldValue,
+
+            newValue: value,
+
+            uid: uid,
+
+            userName: userName,
+
+            time: Date.now(),
+          });
+
+          console.log("UPDATED SUCCESS");
+        } catch (error) {
+          console.log(error);
+
+          alert("حصل خطأ أثناء الحفظ");
+
+          input.value = oldValue;
+        } finally {
+          input.disabled = false;
+
+          input.style.opacity = "1";
+        }
       };
     };
   });
