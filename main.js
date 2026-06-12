@@ -100,7 +100,6 @@ document.getElementById("excelInput").addEventListener("change", async (e) => {
   }
 });
 */
-
 const auth = getAuth(app);
 
 onAuthStateChanged(auth, (user) => {
@@ -644,98 +643,87 @@ window.backupExcel = async function () {
   try {
     const workbook = XLSX.utils.book_new();
 
-    const stagesSnap = await getDocs(collection(db, "stages"));
+    const stageName = localStorage.getItem("stage");
 
-    for (const stageDoc of stagesSnap.docs) {
-      const stageName = stageDoc.id;
+    let settings = {
+      pieces: 0,
+      names: [],
+      max: [],
+    };
 
-      /* =========================
-         SETTINGS
-      ========================= */
+    const settingsRef = doc(
+      db,
+      "stages",
+      stageName,
+      "settings",
+      "main",
+    );
 
-      let settings = {
-        pieces: 0,
-        names: [],
-        max: [],
-      };
+    const settingsSnap = await getDoc(settingsRef);
 
-      const settingsRef = doc(db, "stages", stageName, "settings", "main");
-
-      const settingsSnap = await getDoc(settingsRef);
-
-      if (settingsSnap.exists()) {
-        settings = settingsSnap.data();
-      }
-
-      /* =========================
-         STUDENTS
-      ========================= */
-
-      const studentsSnap = await getDocs(
-        collection(db, "stages", stageName, "students"),
-      );
-
-      let data = [];
-
-      studentsSnap.forEach((student) => {
-        const s = student.data();
-
-        let row = {
-          الاسم: s.name || "",
-        };
-
-        let total = 0;
-
-        for (let i = 1; i <= settings.pieces; i++) {
-          const lessonName = settings.names?.[i - 1] || `قطعة ${i}`;
-
-          const value = Number(s.lessons?.[`piece${i}`] || 0);
-
-          row[lessonName] = value;
-
-          total += value;
-        }
-
-        row["المجموع"] = total;
-
-        data.push(row);
-      });
-
-      /* =========================
-         لو مفيش طلاب
-      ========================= */
-
-      if (data.length === 0) {
-        data.push({
-          "لا يوجد بيانات": "",
-        });
-      }
-
-      /* =========================
-         SHEET
-      ========================= */
-
-      const worksheet = XLSX.utils.json_to_sheet(data);
-
-      XLSX.utils.book_append_sheet(workbook, worksheet, stageName.slice(0, 31));
+    if (settingsSnap.exists()) {
+      settings = settingsSnap.data();
     }
 
-    /* =========================
-       DOWNLOAD
-    ========================= */
+    const studentsSnap = await getDocs(
+      collection(db, "stages", stageName, "students"),
+    );
+
+    let data = [];
+
+    studentsSnap.forEach((student) => {
+      const s = student.data();
+
+      let row = {
+        الاسم: s.name || "",
+      };
+
+      let total = 0;
+
+      for (let i = 1; i <= settings.pieces; i++) {
+        const lessonName =
+          settings.names?.[i - 1] || `قطعة ${i}`;
+
+        const value = Number(
+          s.lessons?.[`piece${i}`] || 0,
+        );
+
+        row[lessonName] = value;
+
+        total += value;
+      }
+
+      row["المجموع"] = total;
+
+      data.push(row);
+    });
+
+    if (data.length === 0) {
+      data.push({
+        "لا يوجد بيانات": "",
+      });
+    }
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    XLSX.utils.book_append_sheet(
+      workbook,
+      worksheet,
+      stageName.slice(0, 31),
+    );
 
     const date = new Date().toLocaleDateString("en-CA");
 
     XLSX.writeFile(
       workbook,
-      `Backup-${localStorage.getItem("stage")}-${date}.xlsx`,
+      `${stageName}-${date}.xlsx`,
     );
 
-    alert("Backup Done");
+    alert("Backup Done ✅");
   } catch (error) {
-    alert(error.message);
-
     console.error(error);
+
+    alert(error.message);
   }
 };
 
@@ -876,28 +864,6 @@ async function loadHistory(direction = "next") {
   renderHistoryPagination(snap.docs.length);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* =========================
    RENDER HISTORY
 ========================= */
@@ -1012,5 +978,3 @@ function renderHistoryHeader() {
     <th>الوقت</th>
   `;
 }
-
-
