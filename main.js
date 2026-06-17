@@ -167,23 +167,23 @@ backword.onclick = async () => {
 
 let messges = [
   "بنشكرك على طول بالك مع الاطفال ربنا يعوضك ❤️",
-  "الايه دعوا الاولاد ياتون الى .... ",
+  "«دَعُوا الأَوْلاَدَ يَأْتُونَ إِلَيَّ وَلَا تَمْنَعُوهُمْ لأَنَّ لِمِثْلِ هَؤُلاَءِ مَلَكُوتَ السَّمَاوَاتِ». (مت 19: 14) 🧒🏽🤗",
   "الجو حر انهاردة بس متقلقش التكييف شغال 😅",
   "متخليش حد يمشى وهو زعلان هااا فرح اطفالك حتى لو بكلمه حلوه 😍 ",
-  "حِينَئِذٍ امْتَلأَتْ أَفْوَاهُنَا ضِحْكًا، وَأَلْسِنَتُنَا تَرَنُّمًا. حِينَئِذٍ قَالُوا بَيْنَ الأُمَمِ: إِنَّ الرَّبَّ قَدْ عَظَّمَ الْعَمَلَ مَعَ هؤُلاَءِ (سفر المزامير 126: 2)",
-  "فَرِحِينَ فِي الرَّجَاءِ، صَابِرِينَ فِي الضَّيْقِ، مُواظِبِينَ عَلَى الصَّلاَةِ (رسالة بولس الرسول إلى أهل رومية 12: 12) ",
-  "لاَ تَحْزَنُوا، لأَنَّ فَرَحَ الرَّبِّ هُوَ قُوَّتُكُمْ. (نح 8: 10).",
-  "فَرِّحْ نَفْسَ عَبْدِكَ، لأَنَّنِي إِلَيْكَ يَا رَبُّ أَرْفَعُ نَفْسِي (سفر المزامير 86: 4)",
-  "حَتَّى الآنَ لَمْ تَطْلُبُوا بِاسْمِي شَيْئاً. اطْلُبُوا تَنَالُوا، فَيَكُونَ فَرَحُكُمْ كَامِلاً.يُوحَنَّا ١٦:‏٢٤",
-  "* الْجَوَابُ الْمُلائِمُ يُفَرِّحُ الإِنْسَانَ، وَمَا أَحْسَنَ الْكَلِمَةَ فِي حِينِهَا.أَمْثَالٌ ١٥:‏٢٣ ",
-  "فَلْيَتَبَرَّعْ كُلُّ وَاحِدٍ بِمَا نَوَى فِي قَلْبِهِ، لَا بِأَسَفٍ وَلا عَنِ اضْطِرَارٍ، لأَنَّ اللهَ يُحِبُّ مَنْ يُعْطِي بِسُرُورٍ.كُورِنْثُوسَ ٱلثَّانِيةُ ٩:‏٧",
-  "لَيْتَكُمْ تَصْمُتُونَ صَمْتًا. يَكُونُ ذلِكَ لَكُمْ حِكْمَةً",
-  "يَصْمُتُ الْعَاقِلُ فِي ذلِكَ الزَّمَانِ لأَنَّهُ زَمَانٌ رَدِيءٌ (سفر عاموس 5: 13)",
-  "الْحِكْمَةُ هِيَ الرَّأْسُ. فَاقْتَنِ الْحِكْمَةَ، وَبِكُلِّ مُقْتَنَاكَ اقْتَنِ الْفَهْمَ (سفر الأمثال 4: 7)",
-  "وَرَابحُ النُّفُوسِ حَكِيمٌ (سفر الأمثال 11: 30)",
-  "لأَنَّ غَضَبَ الإِنْسَانِ لاَ يَصْنَعُ بِرَّ اللهِ (رسالة يعقوب 1: 20)",
-  "بَطِيءُ الْغَضَبِ كَثِيرُ الْفَهْمِ، وَقَصِيرُ الرُّوحِ مُعَلِّي الْحَمَقِ (سفر الأمثال 14: 29)",
-  "اَ تُسْرِعْ بِرُوحِكَ إِلَى الْغَضَبِ، لأَنَّ الْغَضَبَ يَسْتَقِرُّ فِي حِضْنِ الْجُهَّالِ",
+  "حِينَئِذٍ امْتَلأَتْ أَفْوَاهُنَا ضِحْكًا، وَأَلْسِنَتُنَا تَرَنُّمًا. حِينَئِذٍ قَالُوا بَيْنَ الأُمَمِ: إِنَّ الرَّبَّ قَدْ عَظَّمَ الْعَمَلَ مَعَ هؤُلاَءِ (سفر المزامير 126: 2) 😍",
+  "فَرِحِينَ فِي الرَّجَاءِ، صَابِرِينَ فِي الضَّيْقِ، مُواظِبِينَ عَلَى الصَّلاَةِ (رسالة بولس الرسول إلى أهل رومية 12: 12) 🙏🏽",
+  "لاَ تَحْزَنُوا، لأَنَّ فَرَحَ الرَّبِّ هُوَ قُوَّتُكُمْ. (نح 8: 10). 💪🏽",
+  "فَرِّحْ نَفْسَ عَبْدِكَ، لأَنَّنِي إِلَيْكَ يَا رَبُّ أَرْفَعُ نَفْسِي (سفر المزامير 86: 4) 🙏🏽",
+  "حَتَّى الآنَ لَمْ تَطْلُبُوا بِاسْمِي شَيْئاً. اطْلُبُوا تَنَالُوا، فَيَكُونَ فَرَحُكُمْ كَامِلاً.يُوحَنَّا  🙏🏽",
+  " الْجَوَابُ الْمُلائِمُ يُفَرِّحُ الإِنْسَانَ، وَمَا أَحْسَنَ الْكَلِمَةَ فِي حِينِهَا.أَمْثَالٌ  ❤",
+  "فَلْيَتَبَرَّعْ كُلُّ وَاحِدٍ بِمَا نَوَى فِي قَلْبِهِ، لَا بِأَسَفٍ وَلا عَنِ اضْطِرَارٍ، لأَنَّ اللهَ يُحِبُّ مَنْ يُعْطِي بِسُرُورٍ.كُورِنْثُوسَ ٱلثَّانِيةُ 😍",
+  "لَيْتَكُمْ تَصْمُتُونَ صَمْتًا. يَكُونُ ذلِكَ لَكُمْ حِكْمَةً 🧏🏽‍♂️",
+  "يَصْمُتُ الْعَاقِلُ فِي ذلِكَ الزَّمَانِ لأَنَّهُ زَمَانٌ رَدِيءٌ (سفر عاموس 5: 13) 🧠",
+  "الْحِكْمَةُ هِيَ الرَّأْسُ. فَاقْتَنِ الْحِكْمَةَ، وَبِكُلِّ مُقْتَنَاكَ اقْتَنِ الْفَهْمَ (سفر الأمثال 4: 7) 🧠",
+  "وَرَابحُ النُّفُوسِ حَكِيمٌ (سفر الأمثال 11: 30) 😍",
+  "لأَنَّ غَضَبَ الإِنْسَانِ لاَ يَصْنَعُ بِرَّ اللهِ (رسالة يعقوب 1: 20) ❤",
+  "بَطِيءُ الْغَضَبِ كَثِيرُ الْفَهْمِ، وَقَصِيرُ الرُّوحِ مُعَلِّي الْحَمَقِ (سفر الأمثال 14: 29) ❤",
+  "اَ تُسْرِعْ بِرُوحِكَ إِلَى الْغَضَبِ، لأَنَّ الْغَضَبَ يَسْتَقِرُّ فِي حِضْنِ الْجُهَّالِ😍",
 ];
 let messge = document.getElementById("messge");
 const dayIndex =
@@ -651,13 +651,7 @@ window.backupExcel = async function () {
       max: [],
     };
 
-    const settingsRef = doc(
-      db,
-      "stages",
-      stageName,
-      "settings",
-      "main",
-    );
+    const settingsRef = doc(db, "stages", stageName, "settings", "main");
 
     const settingsSnap = await getDoc(settingsRef);
 
@@ -681,12 +675,9 @@ window.backupExcel = async function () {
       let total = 0;
 
       for (let i = 1; i <= settings.pieces; i++) {
-        const lessonName =
-          settings.names?.[i - 1] || `قطعة ${i}`;
+        const lessonName = settings.names?.[i - 1] || `قطعة ${i}`;
 
-        const value = Number(
-          s.lessons?.[`piece${i}`] || 0,
-        );
+        const value = Number(s.lessons?.[`piece${i}`] || 0);
 
         row[lessonName] = value;
 
@@ -706,18 +697,11 @@ window.backupExcel = async function () {
 
     const worksheet = XLSX.utils.json_to_sheet(data);
 
-    XLSX.utils.book_append_sheet(
-      workbook,
-      worksheet,
-      stageName.slice(0, 31),
-    );
+    XLSX.utils.book_append_sheet(workbook, worksheet, stageName.slice(0, 31));
 
     const date = new Date().toLocaleDateString("en-CA");
 
-    XLSX.writeFile(
-      workbook,
-      `${stageName}-${date}.xlsx`,
-    );
+    XLSX.writeFile(workbook, `${stageName}-${date}.xlsx`);
 
     alert("Backup Done ✅");
   } catch (error) {
@@ -738,11 +722,11 @@ import {
   startAfter,
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-let historyPages = [];
+let allHistory = [];
 
-let currentHistoryPage = 0;
+let currentPage = 1;
 
-const historyLimit = 10;
+const pageSize = 10;
 
 /* =========================
    DELETE OLD HISTORY
@@ -753,9 +737,9 @@ const historyLimit = 10;
 ========================= */
 
 document.getElementById("historyBtn").onclick = async function () {
-  historyPages = [];
+  allHistory = [];
 
-  currentHistoryPage = 0;
+  currentPage = 1;
 
   await loadHistory();
 };
@@ -764,104 +748,42 @@ document.getElementById("historyBtn").onclick = async function () {
    LOAD HISTORY
 ========================= */
 
-async function loadHistory(direction = "next") {
+function showHistoryPage() {
+  const start = (currentPage - 1) * pageSize;
+
+  const end = start + pageSize;
+
+  const pageData = allHistory.slice(start, end);
+
+  renderHistory(pageData);
+
+  renderHistoryPagination();
+}
+async function loadHistory() {
   renderHistoryHeader();
 
   table.innerHTML = "";
 
   const pagination = document.getElementById("pagination");
   pagination.style.display = "flex";
-  pagination.innerHTML = "";
 
-  const now = Date.now();
+  const snap = await getDocs(
+    query(collection(db, "history"), orderBy("time", "desc")),
+  );
 
-  const lastWeek = now - 7 * 24 * 60 * 60 * 1000;
+  allHistory = [];
 
-  let q;
+  snap.forEach((doc) => {
+    const d = doc.data();
 
-  /* =========================
-     FIRST PAGE
-  ========================= */
-
-  if (historyPages.length === 0) {
-    q = query(
-      collection(db, "history"),
-
-      orderBy("time", "desc"),
-
-      limit(historyLimit),
-    );
-  } else if (direction === "next") {
-    /* =========================
-     NEXT PAGE
-  ========================= */
-    q = query(
-      collection(db, "history"),
-
-      orderBy("time", "desc"),
-
-      startAfter(historyPages[historyPages.length - 1]),
-
-      limit(historyLimit),
-    );
-  } else {
-    /* =========================
-     PREVIOUS PAGE
-  ========================= */
-    const prevIndex = currentHistoryPage - 1;
-
-    if (prevIndex < 0) return;
-
-    currentHistoryPage = prevIndex;
-
-    const prevDoc = prevIndex === 0 ? null : historyPages[prevIndex - 1];
-
-    if (prevDoc) {
-      q = query(
-        collection(db, "history"),
-
-        orderBy("time", "desc"),
-
-        startAfter(prevDoc),
-
-        limit(historyLimit),
-      );
-    } else {
-      q = query(
-        collection(db, "history"),
-
-        orderBy("time", "desc"),
-
-        limit(historyLimit),
-      );
-    }
-  }
-
-  const snap = await getDocs(q);
-
-  let data = [];
-
-  snap.forEach((docu) => {
-    const d = docu.data();
-
-    if (d.time >= lastWeek && d.stage === stage) {
-      data.push(d);
+    if (d.stage === stage) {
+      allHistory.push(d);
     }
   });
 
-  /* =========================
-     SAVE LAST DOC
-  ========================= */
+  currentPage = 1;
 
-  if (snap.docs.length > 0 && direction !== "prev") {
-    historyPages.push(snap.docs[snap.docs.length - 1]);
-
-    currentHistoryPage = historyPages.length - 1;
-  }
-
-  renderHistory(data);
-
-  renderHistoryPagination(snap.docs.length);
+  showHistoryPage();
 }
 
 /* =========================
@@ -912,51 +834,41 @@ function renderHistory(data) {
    PAGINATION
 ========================= */
 
-function renderHistoryPagination(count) {
+function renderHistoryPagination() {
   const pagination = document.getElementById("pagination");
 
-  pagination.innerHTML = "";
+  const totalPages = Math.ceil(allHistory.length / pageSize);
 
-  /* =========================
-     PREVIOUS
-  ========================= */
+  pagination.innerHTML = "";
 
   const prevBtn = document.createElement("button");
 
   prevBtn.innerHTML = "السابق";
 
-  prevBtn.disabled = currentHistoryPage === 0;
+  prevBtn.disabled = currentPage === 1;
 
-  prevBtn.onclick = async () => {
-    await loadHistory("prev");
+  prevBtn.onclick = () => {
+    currentPage--;
+    showHistoryPage();
   };
 
   pagination.appendChild(prevBtn);
 
-  /* =========================
-     PAGE NUMBER
-  ========================= */
+  const page = document.createElement("span");
 
-  const pageBtn = document.createElement("button");
+  page.innerHTML = `${currentPage} / ${totalPages}`;
 
-  pageBtn.innerHTML = currentHistoryPage + 1;
-
-  pageBtn.classList.add("active");
-
-  pagination.appendChild(pageBtn);
-
-  /* =========================
-     NEXT
-  ========================= */
+  pagination.appendChild(page);
 
   const nextBtn = document.createElement("button");
 
   nextBtn.innerHTML = "التالي";
 
-  nextBtn.disabled = count < historyLimit;
+  nextBtn.disabled = currentPage === totalPages;
 
-  nextBtn.onclick = async () => {
-    await loadHistory("next");
+  nextBtn.onclick = () => {
+    currentPage++;
+    showHistoryPage();
   };
 
   pagination.appendChild(nextBtn);
