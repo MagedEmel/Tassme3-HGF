@@ -38,6 +38,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 /*
 document.getElementById("excelInput").addEventListener("change", async (e) => {
   try {

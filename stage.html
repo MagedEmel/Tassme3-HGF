@@ -534,8 +534,9 @@
           <button onclick="showAdd()">إضافة</button>
 
           <button onclick="showEdit()">تعديل</button>
-
+          <button onclick="showDelete()">حذف</button>
           <button onclick="showSearch()">عرض</button>
+
           <button onclick="showAll()">عرض الكل</button>
         </div>
 
@@ -555,12 +556,12 @@
         getDoc,
         addDoc,
         updateDoc,
+        deleteDoc,
         query,
         where,
         doc,
         onSnapshot,
       } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
       import {
         getAuth,
         onAuthStateChanged,
@@ -586,13 +587,14 @@
       window.getDocs = getDocs;
       window.addDoc = addDoc;
       window.updateDoc = updateDoc;
+      window.deleteDoc = deleteDoc;
       window.query = query;
       window.where = where;
 
       /* =========================
      AUTH CHECK
   ========================= */
-      
+
       const auth = getAuth(app);
 
       document.body.style.display = "none";
@@ -788,6 +790,138 @@
           console.log(error);
 
           alert("حصل خطأ");
+        }
+      }
+
+      /* =========================
+    DELETE
+  ========================= */
+      function showDelete() {
+        document.getElementById("dynamicContent").innerHTML = `
+
+    <input
+      id="deleteName"
+      placeholder="اسم الطفل"
+      oninput="liveDeleteSearch(this.value)"
+    >
+
+    <div
+      class="suggestions"
+      id="deleteSuggestions">
+    </div>
+
+    <button onclick="deleteStudent()">
+      حذف الطفل
+    </button>
+
+  `;
+      }
+      async function liveDeleteSearch(value) {
+        const suggestions = document.getElementById("deleteSuggestions");
+
+        suggestions.innerHTML = "";
+
+        if (value.trim() == "") return;
+
+        try {
+          const studentsRef = collection(
+            db,
+            "stages",
+            selectedStage,
+            "students",
+          );
+
+          const snap = await getDocs(studentsRef);
+
+          let counter = 0;
+
+          snap.forEach((docu) => {
+            const data = docu.data();
+
+            if (
+              data.name.toLowerCase().includes(value.toLowerCase()) &&
+              counter < 5
+            ) {
+              suggestions.innerHTML += `
+
+          <div
+            class="suggestionItem"
+            onclick="chooseDeleteStudent('${data.name.replace(/'/g, "\\'")}')">
+
+            👦 ${data.name}
+
+          </div>
+
+        `;
+
+              counter++;
+            }
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      function chooseDeleteStudent(name) {
+        document.getElementById("deleteName").value = name;
+
+        document.getElementById("deleteSuggestions").innerHTML = "";
+      }
+      async function deleteStudent() {
+        const name = document.getElementById("deleteName").value.trim();
+
+        if (name == "") {
+          alert("اكتب اسم الطفل");
+          return;
+        }
+
+        const ok = confirm(`متأكد أنك تريد حذف ${name} ؟`);
+
+        if (!ok) return;
+
+        try {
+          const studentsRef = collection(
+            db,
+            "stages",
+            selectedStage,
+            "students",
+          );
+
+          const snap = await getDocs(studentsRef);
+
+          let found = null;
+
+          snap.forEach((docu) => {
+            const data = docu.data();
+
+            if (data.name.toLowerCase() == name.toLowerCase()) {
+              found = docu;
+            }
+          });
+
+          if (!found) {
+            alert("الطفل غير موجود");
+            return;
+          }
+
+          await deleteDoc(found.ref);
+
+          await addDoc(collection(db, "history"), {
+            type: "delete",
+            studentName: name,
+            userName: localStorage.getItem("userName") || "Unknown",
+            stage: selectedStage,
+            time: Date.now(),
+          });
+
+          alert("تم الحذف بنجاح");
+
+          document.getElementById("deleteName").value = "";
+
+          document.getElementById("deleteSuggestions").innerHTML = "";
+        } catch (error) {
+          console.log(error);
+
+          alert("حصل خطأ أثناء الحذف");
         }
       }
       /* =========================
